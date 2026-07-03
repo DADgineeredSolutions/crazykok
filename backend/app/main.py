@@ -15,7 +15,7 @@ app = FastAPI(title="Crazy Kok", version="0.1.0")
 def cors_allowed_origins() -> list[str]:
     configured_origins = os.getenv(
         "CORS_ALLOWED_ORIGINS",
-        "https://app.localhost",
+        "https://crazykok.local,https://app.crazykok.local",
     )
     return [origin.strip() for origin in configured_origins.split(",") if origin.strip()]
 
