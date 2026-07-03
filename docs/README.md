@@ -1,0 +1,3 @@
+# CrazyKok
+
+Engineering documentation starter.

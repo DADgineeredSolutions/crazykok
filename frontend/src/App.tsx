@@ -257,7 +257,7 @@ function App() {
           <img src={logoUrl} alt="Crazy Kok" className="site-logo" />
           <div>
             <p className="eyebrow">Research Workspace</p>
-            <h1>Crazy Kok Venues</h1>
+            <h1>Crazy Kok</h1>
           </div>
         </div>
         <div className="summary-strip">

@@ -7,7 +7,7 @@ from . import models
 from .database import Base, engine, get_db
 from .schemas import EventCreate, EventRead, EventUpdate, OrganizerRead, VenueRead
 
-app = FastAPI(title="Crazy Kok Venues", version="0.1.0")
+app = FastAPI(title="Crazy Kok", version="0.1.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],

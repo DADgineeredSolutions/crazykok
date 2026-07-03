@@ -1,6 +1,6 @@
-# Crazy Kok Venues
+# Crazy Kok
 
-A local-first web application for tracking mobile food vending opportunities in Drenthe.
+A local-first web application for tracking mobile food vending opportunities and related operations in Drenthe.
 
 ## Stack
 
