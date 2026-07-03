@@ -1,10 +1,11 @@
 from fastapi import Depends, FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 from . import models
-from .database import Base, SessionLocal, engine, get_db
-from .schemas import EventCreate, EventRead, OrganizerRead, VenueRead
+from .database import Base, engine, get_db
+from .schemas import EventCreate, EventRead, EventUpdate, OrganizerRead, VenueRead
 
 app = FastAPI(title="Crazy Kok Venues", version="0.1.0")
 app.add_middleware(
@@ -15,7 +16,28 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+def ensure_sqlite_event_columns() -> None:
+    if not engine.url.get_backend_name().startswith("sqlite"):
+        return
+
+    columns = {
+        "application_deadline": "DATE",
+        "application_status": "VARCHAR(50) NOT NULL DEFAULT 'researching'",
+        "source_url": "VARCHAR(500)",
+        "notes": "TEXT",
+    }
+
+    with engine.begin() as connection:
+        existing_columns = {
+            row[1] for row in connection.execute(text("PRAGMA table_info(events)")).fetchall()
+        }
+        for column_name, column_type in columns.items():
+            if column_name not in existing_columns:
+                connection.execute(text(f"ALTER TABLE events ADD COLUMN {column_name} {column_type}"))
+
+
 Base.metadata.create_all(bind=engine)
+ensure_sqlite_event_columns()
 
 
 @app.get("/health")
@@ -26,11 +48,30 @@ def health_check():
 @app.get("/events", response_model=list[EventRead])
 def list_events(
     q: str | None = Query(default=None, max_length=100),
+    status: str | None = Query(default=None, max_length=50),
+    category: str | None = Query(default=None, max_length=100),
+    location: str | None = Query(default=None, max_length=255),
+    active: bool | None = Query(default=True),
     db: Session = Depends(get_db),
 ):
     query = db.query(models.Event)
     if q:
-        query = query.filter(models.Event.name.ilike(f"%{q}%"))
+        search = f"%{q}%"
+        query = query.filter(
+            models.Event.name.ilike(search)
+            | models.Event.location.ilike(search)
+            | models.Event.organizer.ilike(search)
+            | models.Event.category.ilike(search)
+            | models.Event.notes.ilike(search)
+        )
+    if status:
+        query = query.filter(models.Event.application_status == status)
+    if category:
+        query = query.filter(models.Event.category == category)
+    if location:
+        query = query.filter(models.Event.location.ilike(f"%{location}%"))
+    if active is not None:
+        query = query.filter(models.Event.is_active == active)
     return query.order_by(models.Event.event_date.asc().nulls_last()).all()
 
 
@@ -49,6 +90,54 @@ def get_event(event_id: int, db: Session = Depends(get_db)):
     if not event:
         raise HTTPException(status_code=404, detail="Event not found")
     return event
+
+
+@app.patch("/events/{event_id}", response_model=EventRead)
+def update_event(event_id: int, event_update: EventUpdate, db: Session = Depends(get_db)):
+    event = db.query(models.Event).filter(models.Event.id == event_id).first()
+    if not event:
+        raise HTTPException(status_code=404, detail="Event not found")
+
+    for field, value in event_update.model_dump(exclude_unset=True).items():
+        setattr(event, field, value)
+
+    db.commit()
+    db.refresh(event)
+    return event
+
+
+@app.post("/events/{event_id}/archive", response_model=EventRead)
+def archive_event(event_id: int, db: Session = Depends(get_db)):
+    event = db.query(models.Event).filter(models.Event.id == event_id).first()
+    if not event:
+        raise HTTPException(status_code=404, detail="Event not found")
+
+    event.is_active = False
+    db.commit()
+    db.refresh(event)
+    return event
+
+
+@app.post("/events/{event_id}/restore", response_model=EventRead)
+def restore_event(event_id: int, db: Session = Depends(get_db)):
+    event = db.query(models.Event).filter(models.Event.id == event_id).first()
+    if not event:
+        raise HTTPException(status_code=404, detail="Event not found")
+
+    event.is_active = True
+    db.commit()
+    db.refresh(event)
+    return event
+
+
+@app.delete("/events/{event_id}", status_code=204)
+def delete_event(event_id: int, db: Session = Depends(get_db)):
+    event = db.query(models.Event).filter(models.Event.id == event_id).first()
+    if not event:
+        raise HTTPException(status_code=404, detail="Event not found")
+
+    db.delete(event)
+    db.commit()
 
 
 @app.get("/organizers", response_model=list[OrganizerRead])
