@@ -1,7 +1,23 @@
+---
+schema_version: 1
+id: '0016'
+slug: no-authentication-in-initial-scope
+title: Do Not Add Authentication Initially
+status: accepted
+date: '2026-07-03'
+category: security
+tags:
+  - authentication
+  - local-first
+keywords:
+  - single user
+  - access control
+supersedes: []
+superseded_by: []
+---
+
 # ADR 0016: Do Not Add Authentication Initially
 
-- Status: Accepted
-- Date: 2026-07-03
 
 ## Context
 

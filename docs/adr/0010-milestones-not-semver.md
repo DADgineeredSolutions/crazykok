@@ -1,7 +1,23 @@
+---
+schema_version: 1
+id: '0010'
+slug: milestones-not-semver
+title: Use Milestones Instead Of Semantic Versioning
+status: accepted
+date: '2026-07-03'
+category: process
+tags:
+  - milestones
+  - planning
+keywords:
+  - release planning
+  - semantic versioning
+supersedes: []
+superseded_by: []
+---
+
 # ADR 0010: Use Milestones Instead Of Semantic Versioning
 
-- Status: Accepted
-- Date: 2026-07-03
 
 ## Context
 

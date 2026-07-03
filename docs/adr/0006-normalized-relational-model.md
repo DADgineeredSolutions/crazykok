@@ -1,7 +1,23 @@
+---
+schema_version: 1
+id: '0006'
+slug: normalized-relational-model
+title: Use A Normalized Relational Model
+status: accepted
+date: '2026-07-03'
+category: data
+tags:
+  - data-model
+  - normalization
+keywords:
+  - relational model
+  - database design
+supersedes: []
+superseded_by: []
+---
+
 # ADR 0006: Use A Normalized Relational Model
 
-- Status: Accepted
-- Date: 2026-07-03
 
 ## Context
 

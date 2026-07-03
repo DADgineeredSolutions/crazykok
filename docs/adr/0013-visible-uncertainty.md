@@ -1,7 +1,23 @@
+---
+schema_version: 1
+id: '0013'
+slug: visible-uncertainty
+title: Make Unknown And Estimated Values Visible
+status: accepted
+date: '2026-07-03'
+category: product
+tags:
+  - confidence
+  - uncertainty
+keywords:
+  - estimated values
+  - unknown values
+supersedes: []
+superseded_by: []
+---
+
 # ADR 0013: Make Unknown And Estimated Values Visible
 
-- Status: Accepted
-- Date: 2026-07-03
 
 ## Context
 

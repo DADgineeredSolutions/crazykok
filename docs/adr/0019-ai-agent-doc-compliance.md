@@ -1,7 +1,23 @@
+---
+schema_version: 1
+id: '0019'
+slug: ai-agent-doc-compliance
+title: Require AI Coding Agents To Follow Documentation
+status: accepted
+date: '2026-07-03'
+category: process
+tags:
+  - ai-agents
+  - documentation
+keywords:
+  - coding agent rules
+  - documentation compliance
+supersedes: []
+superseded_by: []
+---
+
 # ADR 0019: Require AI Coding Agents To Follow Documentation
 
-- Status: Accepted
-- Date: 2026-07-03
 
 ## Context
 

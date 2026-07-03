@@ -1,7 +1,24 @@
+---
+schema_version: 1
+id: '0025'
+slug: commerce-inventory-deferred
+title: Defer Commerce And Inventory Features
+status: accepted
+date: '2026-07-03'
+category: product
+tags:
+  - commerce
+  - scope
+keywords:
+  - inventory
+  - point of sale
+  - orders
+supersedes: []
+superseded_by: []
+---
+
 # ADR 0025: Defer Commerce And Inventory Features
 
-- Status: Accepted
-- Date: 2026-07-03
 
 ## Context
 

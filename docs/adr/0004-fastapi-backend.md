@@ -1,7 +1,23 @@
+---
+schema_version: 1
+id: '0004'
+slug: fastapi-backend
+title: Use FastAPI For The Backend
+status: accepted
+date: '2026-07-03'
+category: backend
+tags:
+  - api
+  - fastapi
+keywords:
+  - Python API
+  - web backend
+supersedes: []
+superseded_by: []
+---
+
 # ADR 0004: Use FastAPI For The Backend
 
-- Status: Accepted
-- Date: 2026-07-03
 
 ## Context
 

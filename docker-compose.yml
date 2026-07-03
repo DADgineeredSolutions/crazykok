@@ -7,10 +7,14 @@ services:
       APP_ENV: ${APP_ENV:-development}
       DATABASE_URL: ${DATABASE_URL:-sqlite:////data/app.db}
       CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-https://crazykok.local,https://app.crazykok.local}
+      ADR_AUTHORING_ENABLED: ${ADR_AUTHORING_ENABLED:-true}
+      ADR_DIRECTORY: ${ADR_DIRECTORY:-/app/docs/adr}
+      DOCS_ORIGIN: ${DOCS_ORIGIN:-https://docs.crazykok.local}
     ports:
       - "127.0.0.1:${API_PORT:-8000}:8000"
     volumes:
       - api-data:/data
+      - ./docs/adr:/app/docs/adr
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health').read()"]
       interval: 30s
@@ -25,6 +29,7 @@ services:
       APP_DOMAIN: ${APP_DOMAIN:-crazykok.local}
       APP_DOMAIN_ALIAS: ${APP_DOMAIN_ALIAS:-app.crazykok.local}
       API_DOMAIN: ${API_DOMAIN:-api.crazykok.local}
+      DOCS_DOMAIN: ${DOCS_DOMAIN:-docs.crazykok.local}
     ports:
       - "${WEB_PORT:-80}:80"
       - "${HTTPS_PORT:-443}:443"
@@ -33,7 +38,7 @@ services:
     depends_on:
       - api
     healthcheck:
-      test: ["CMD-SHELL", "wget --spider -q --no-check-certificate --header=\"Host: $${APP_DOMAIN}\" https://127.0.0.1/"]
+      test: ["CMD-SHELL", "wget --spider -q --no-check-certificate --header=\"Host: $${APP_DOMAIN}\" https://127.0.0.1/ && wget --spider -q --no-check-certificate --header=\"Host: $${DOCS_DOMAIN}\" https://127.0.0.1/"]
       interval: 30s
       timeout: 10s
       retries: 3

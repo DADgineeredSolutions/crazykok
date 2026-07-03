@@ -1,7 +1,23 @@
+---
+schema_version: 1
+id: '0014'
+slug: alembic-migrations
+title: Use Alembic For Database Migrations
+status: accepted
+date: '2026-07-03'
+category: data
+tags:
+  - alembic
+  - migrations
+keywords:
+  - schema migration
+  - database evolution
+supersedes: []
+superseded_by: []
+---
+
 # ADR 0014: Use Alembic For Database Migrations
 
-- Status: Accepted
-- Date: 2026-07-03
 
 ## Context
 

@@ -1,7 +1,23 @@
+---
+schema_version: 1
+id: '0017'
+slug: no-scraping-in-initial-scope
+title: Do Not Start With Automated Scraping
+status: accepted
+date: '2026-07-03'
+category: product
+tags:
+  - research
+  - scraping
+keywords:
+  - data collection
+  - manual entry
+supersedes: []
+superseded_by: []
+---
+
 # ADR 0017: Do Not Start With Automated Scraping
 
-- Status: Accepted
-- Date: 2026-07-03
 
 ## Context
 

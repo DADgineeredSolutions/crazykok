@@ -46,3 +46,11 @@ Calendar feeds should be read-only. Do not build two-way sync in the first calen
 - authentication before needed
 - route optimization before map/calendar basics
 - hiding uncertainty in researched data
+
+## Architecture Decision Records
+
+Read `docs/ADR_AUTHORING.md` before proposing an architectural change. Inspect,
+validate, create, and update ADRs through the loopback-only internal authoring
+API. Do not choose ADR numbers or edit `docs/adr/*.md` directly. The documented
+bootstrap/recovery exception applies only while the gatekeeper itself is being
+introduced or repaired. Git staging and commits remain separate from the API.

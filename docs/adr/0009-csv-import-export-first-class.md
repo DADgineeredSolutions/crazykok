@@ -1,7 +1,23 @@
+---
+schema_version: 1
+id: '0009'
+slug: csv-import-export-first-class
+title: Make CSV Import And Export First-Class
+status: accepted
+date: '2026-07-03'
+category: data
+tags:
+  - csv
+  - portability
+keywords:
+  - import export
+  - spreadsheet
+supersedes: []
+superseded_by: []
+---
+
 # ADR 0009: Make CSV Import And Export First-Class
 
-- Status: Accepted
-- Date: 2026-07-03
 
 ## Context
 

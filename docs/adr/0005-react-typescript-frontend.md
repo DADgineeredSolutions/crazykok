@@ -1,7 +1,23 @@
+---
+schema_version: 1
+id: '0005'
+slug: react-typescript-frontend
+title: Use React And TypeScript For The Frontend
+status: accepted
+date: '2026-07-03'
+category: frontend
+tags:
+  - react
+  - typescript
+keywords:
+  - browser application
+  - Vite
+supersedes: []
+superseded_by: []
+---
+
 # ADR 0005: Use React And TypeScript For The Frontend
 
-- Status: Accepted
-- Date: 2026-07-03
 
 ## Context
 

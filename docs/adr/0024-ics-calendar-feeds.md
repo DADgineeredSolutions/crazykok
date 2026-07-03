@@ -1,7 +1,23 @@
+---
+schema_version: 1
+id: '0024'
+slug: ics-calendar-feeds
+title: Provide Read-Only ICS Calendar Feeds
+status: proposed
+date: '2026-07-03'
+category: architecture
+tags:
+  - calendar
+  - ics
+keywords:
+  - iCalendar feed
+  - calendar subscription
+supersedes: []
+superseded_by: []
+---
+
 # ADR 0024: Provide Read-Only ICS Calendar Feeds
 
-- Status: Proposed
-- Date: 2026-07-03
 
 ## Context
 

@@ -84,10 +84,33 @@ Deliverables:
 
 ## Milestone 09 — Decision Log
 
+Status: complete
+
 Deliverables:
 
-- web accessible UI for ADRs
-- navigation between recods (next, previous)
-- overview of all adrs linking to their markdown view
-- filter & search by tags, categories, keywords, search hit
-- expose on new subdomain 'docs.crazykok'
+- web-accessible, read-only UI generated from the repository ADRs
+- previous/next navigation between records
+- overview of all ADRs linking to their rendered Markdown view
+- filters and search by status, tags, category, keywords, and search-hit excerpt
+- dedicated configurable docs subdomain (`docs.crazykok.local` locally and
+  `docs.crazykok.com` in production)
+- validated ADR metadata with unique identifiers, categories, and tags
+- local-only filesystem-backed authoring API that allocates immutable IDs,
+  validates structured proposals, and never commits to Git
+- frontend, indexer, routing, and deployment tests
+
+Implementation plan: `milestones/milestone-09-codex-prompt.md`.
+
+## Milestone 10 – Venue Management
+
+Deliverables:
+
+- Full venue data model
+- Venue CRUD screens
+- Contact management
+- Document attachment support
+- Photo gallery
+- Map location picker
+- Duplicate detection (to avoid creating the same venue twice)
+- Opportunity history for each venue
+- Venue detail page with tabs (Overview, Contacts, Documents, - Opportunities, Notes, Statistics)

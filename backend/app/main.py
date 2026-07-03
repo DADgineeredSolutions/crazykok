@@ -6,10 +6,12 @@ from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 from . import models
+from .adr_routes import router as adr_router
 from .database import Base, engine, get_db
 from .schemas import EventCreate, EventRead, EventUpdate, OrganizerRead, VenueRead
 
 app = FastAPI(title="Crazy Kok", version="0.1.0")
+app.include_router(adr_router)
 
 
 def cors_allowed_origins() -> list[str]:

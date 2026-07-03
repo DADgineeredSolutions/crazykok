@@ -1,7 +1,23 @@
+---
+schema_version: 1
+id: '0023'
+slug: separate-opportunities-from-operations
+title: Separate Opportunities From Operations
+status: accepted
+date: '2026-07-03'
+category: domain
+tags:
+  - operation
+  - opportunity
+keywords:
+  - committed work
+  - discovery record
+supersedes: []
+superseded_by: []
+---
+
 # ADR 0023: Separate Opportunities From Operations
 
-- Status: Accepted
-- Date: 2026-07-03
 
 ## Context
 

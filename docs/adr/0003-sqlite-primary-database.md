@@ -1,7 +1,23 @@
+---
+schema_version: 1
+id: '0003'
+slug: sqlite-primary-database
+title: Use SQLite As The Primary Database
+status: accepted
+date: '2026-07-03'
+category: data
+tags:
+  - database
+  - sqlite
+keywords:
+  - relational storage
+  - primary database
+supersedes: []
+superseded_by: []
+---
+
 # ADR 0003: Use SQLite As The Primary Database
 
-- Status: Accepted
-- Date: 2026-07-03
 
 ## Context
 

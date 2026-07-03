@@ -1,7 +1,23 @@
+---
+schema_version: 1
+id: '0015'
+slug: thin-routes-services
+title: Keep API Routes Thin And Put Workflows In Services
+status: accepted
+date: '2026-07-03'
+category: backend
+tags:
+  - services
+  - thin-routes
+keywords:
+  - service layer
+  - route handler
+supersedes: []
+superseded_by: []
+---
+
 # ADR 0015: Keep API Routes Thin And Put Workflows In Services
 
-- Status: Accepted
-- Date: 2026-07-03
 
 ## Context
 

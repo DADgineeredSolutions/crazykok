@@ -1,7 +1,23 @@
+---
+schema_version: 1
+id: '0011'
+slug: schoonebeek-home-base
+title: Use Schoonebeek As The Default Home Base
+status: accepted
+date: '2026-07-03'
+category: product
+tags:
+  - distance
+  - schoonebeek
+keywords:
+  - home base
+  - travel origin
+supersedes: []
+superseded_by: []
+---
+
 # ADR 0011: Use Schoonebeek As The Default Home Base
 
-- Status: Accepted
-- Date: 2026-07-03
 
 ## Context
 

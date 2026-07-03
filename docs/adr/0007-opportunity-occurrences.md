@@ -1,7 +1,23 @@
+---
+schema_version: 1
+id: '0007'
+slug: opportunity-occurrences
+title: Represent Dated Vendor Chances As Opportunities
+status: accepted
+date: '2026-07-03'
+category: domain
+tags:
+  - opportunity
+  - opportunity-series
+keywords:
+  - dated vendor chance
+  - recurring opportunity
+supersedes: []
+superseded_by: []
+---
+
 # ADR 0007: Represent Dated Vendor Chances As Opportunities
 
-- Status: Accepted
-- Date: 2026-07-03
 
 ## Context
 

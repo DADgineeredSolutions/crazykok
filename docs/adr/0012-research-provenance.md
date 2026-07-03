@@ -1,7 +1,23 @@
+---
+schema_version: 1
+id: '0012'
+slug: research-provenance
+title: Track Research Provenance
+status: accepted
+date: '2026-07-03'
+category: data
+tags:
+  - provenance
+  - research
+keywords:
+  - source tracking
+  - data audit
+supersedes: []
+superseded_by: []
+---
+
 # ADR 0012: Track Research Provenance
 
-- Status: Accepted
-- Date: 2026-07-03
 
 ## Context
 

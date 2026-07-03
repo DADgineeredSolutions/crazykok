@@ -1,7 +1,23 @@
+---
+schema_version: 1
+id: '0018'
+slug: tests-for-business-logic
+title: Test Business Logic
+status: accepted
+date: '2026-07-03'
+category: process
+tags:
+  - business-logic
+  - testing
+keywords:
+  - automated tests
+  - quality assurance
+supersedes: []
+superseded_by: []
+---
+
 # ADR 0018: Test Business Logic
 
-- Status: Accepted
-- Date: 2026-07-03
 
 ## Context
 

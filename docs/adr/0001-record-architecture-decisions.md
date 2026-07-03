@@ -1,7 +1,23 @@
+---
+schema_version: 1
+id: '0001'
+slug: record-architecture-decisions
+title: Record Architecture Decisions
+status: accepted
+date: '2026-07-03'
+category: process
+tags:
+  - adr
+  - documentation
+keywords:
+  - decision record
+  - architecture history
+supersedes: []
+superseded_by: []
+---
+
 # ADR 0001: Record Architecture Decisions
 
-- Status: Accepted
-- Date: 2026-07-03
 
 ## Context
 

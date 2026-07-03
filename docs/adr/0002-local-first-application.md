@@ -1,7 +1,23 @@
+---
+schema_version: 1
+id: '0002'
+slug: local-first-application
+title: Build A Local-First Application
+status: accepted
+date: '2026-07-03'
+category: architecture
+tags:
+  - local-first
+  - privacy
+keywords:
+  - offline application
+  - local backend
+supersedes: []
+superseded_by: []
+---
+
 # ADR 0002: Build A Local-First Application
 
-- Status: Accepted
-- Date: 2026-07-03
 
 ## Context
 

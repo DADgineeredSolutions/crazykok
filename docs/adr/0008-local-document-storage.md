@@ -1,7 +1,23 @@
+---
+schema_version: 1
+id: '0008'
+slug: local-document-storage
+title: Store Documents Locally With Metadata
+status: accepted
+date: '2026-07-03'
+category: data
+tags:
+  - documents
+  - local-storage
+keywords:
+  - vendor documents
+  - file metadata
+supersedes: []
+superseded_by: []
+---
+
 # ADR 0008: Store Documents Locally With Metadata
 
-- Status: Accepted
-- Date: 2026-07-03
 
 ## Context
 

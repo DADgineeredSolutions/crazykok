@@ -1,7 +1,23 @@
+---
+schema_version: 1
+id: '0020'
+slug: private-portable-tool
+title: Optimize For A Private Portable Business Tool
+status: accepted
+date: '2026-07-03'
+category: product
+tags:
+  - local-first
+  - portability
+keywords:
+  - private tool
+  - single user
+supersedes: []
+superseded_by: []
+---
+
 # ADR 0020: Optimize For A Private Portable Business Tool
 
-- Status: Accepted
-- Date: 2026-07-03
 
 ## Context
 

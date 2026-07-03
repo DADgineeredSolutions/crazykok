@@ -1,19 +1,45 @@
+---
+schema_version: 1
+id: '0022'
+slug: use-opportunity-and-operation-domain-language
+title: Use Opportunity And Operation Domain Language
+status: accepted
+date: '2026-07-03'
+category: domain
+tags:
+  - application
+  - operation
+  - opportunity
+keywords:
+  - domain language
+  - event terminology
+  - trading terminology
+supersedes: []
+superseded_by: []
+---
+
 # ADR 0022: Use Opportunity And Operation Domain Language
 
-- Status: Accepted
-- Date: 2026-07-03
 
 ## Context
 
-This project is a private, local-first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent.
+The terms event and trading are ambiguous. The product needs cleaner domain language that distinguishes possible vending chances from real committed business activity while staying coherent across API, database, UI, and documentation.
 
 ## Decision
 
 Use Opportunity, Application, Operation, Operation Outcome, and Calendar Feed as core terms.
 
+- Opportunity: a possible vending opportunity.
+- Application: the process of applying or reserving.
+- Operation: a committed real-world plan to attend.
+- Operation Outcome: the actual results after attending.
+
 ## Consequences
 
-Aligns the model with how the business is actually planned and executed.
+- API, database, UI, and docs should use this language.
+- Existing event/trading terms should be refactored where practical.
+- Public-facing event names may still contain “event” when that is their official name.
+- The model aligns with how the business is actually planned and executed.
 
 ## Alternatives Considered
 

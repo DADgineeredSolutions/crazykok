@@ -1,0 +1,603 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "0001",
+    "slug": "record-architecture-decisions",
+    "title": "Record Architecture Decisions",
+    "status": "accepted",
+    "date": "2026-07-03",
+    "category": "process",
+    "tags": [
+      "adr",
+      "documentation"
+    ],
+    "keywords": [
+      "decision record",
+      "architecture history"
+    ],
+    "supersedes": [],
+    "supersededBy": [],
+    "markdown": "# ADR 0001: Record Architecture Decisions\n\n\n## Context\n\nThis project is a private, local-first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent.\n\n## Decision\n\nUse ADRs stored in `docs/adr/` for significant technical and product decisions.\n\n## Consequences\n\nPreserves reasoning in the repository and gives AI coding agents stable guidance.\n\n## Alternatives Considered\n\n- Leave the decision implicit in chat history.\n- Let the coding agent infer the design.\n- Choose a broader or more complex option earlier than needed.\n\n## Review Trigger\n\nReview this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "searchText": "0001 Record Architecture Decisions accepted process adr documentation decision record architecture history # ADR 0001: Record Architecture Decisions Context This project is a private, local first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent. Decision Use ADRs stored in docs/adr/ for significant technical and product decisions. Consequences Preserves reasoning in the repository and gives AI coding agents stable guidance. Alternatives Considered Leave the decision implicit in chat history. Let the coding agent infer the design. Choose a broader or more complex option earlier than needed. Review Trigger Review this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "sourcePath": "docs/adr/0001-record-architecture-decisions.md"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "0002",
+    "slug": "local-first-application",
+    "title": "Build A Local-First Application",
+    "status": "accepted",
+    "date": "2026-07-03",
+    "category": "architecture",
+    "tags": [
+      "local-first",
+      "privacy"
+    ],
+    "keywords": [
+      "offline application",
+      "local backend"
+    ],
+    "supersedes": [],
+    "supersededBy": [],
+    "markdown": "# ADR 0002: Build A Local-First Application\n\n\n## Context\n\nThis project is a private, local-first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent.\n\n## Decision\n\nBuild as a local-first browser app with local backend, local SQLite database, and local documents.\n\n## Consequences\n\nKeeps data private, reduces setup complexity, and avoids cloud dependency.\n\n## Alternatives Considered\n\n- Leave the decision implicit in chat history.\n- Let the coding agent infer the design.\n- Choose a broader or more complex option earlier than needed.\n\n## Review Trigger\n\nReview this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "searchText": "0002 Build A Local First Application accepted architecture local first privacy offline application local backend # ADR 0002: Build A Local First Application Context This project is a private, local first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent. Decision Build as a local first browser app with local backend, local SQLite database, and local documents. Consequences Keeps data private, reduces setup complexity, and avoids cloud dependency. Alternatives Considered Leave the decision implicit in chat history. Let the coding agent infer the design. Choose a broader or more complex option earlier than needed. Review Trigger Review this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "sourcePath": "docs/adr/0002-local-first-application.md"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "0003",
+    "slug": "sqlite-primary-database",
+    "title": "Use SQLite As The Primary Database",
+    "status": "accepted",
+    "date": "2026-07-03",
+    "category": "data",
+    "tags": [
+      "database",
+      "sqlite"
+    ],
+    "keywords": [
+      "relational storage",
+      "primary database"
+    ],
+    "supersedes": [],
+    "supersededBy": [],
+    "markdown": "# ADR 0003: Use SQLite As The Primary Database\n\n\n## Context\n\nThis project is a private, local-first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent.\n\n## Decision\n\nUse SQLite through SQLAlchemy, with Alembic migrations.\n\n## Consequences\n\nProvides a portable relational database without server administration.\n\n## Alternatives Considered\n\n- Leave the decision implicit in chat history.\n- Let the coding agent infer the design.\n- Choose a broader or more complex option earlier than needed.\n\n## Review Trigger\n\nReview this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "searchText": "0003 Use SQLite As The Primary Database accepted data database sqlite relational storage primary database # ADR 0003: Use SQLite As The Primary Database Context This project is a private, local first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent. Decision Use SQLite through SQLAlchemy, with Alembic migrations. Consequences Provides a portable relational database without server administration. Alternatives Considered Leave the decision implicit in chat history. Let the coding agent infer the design. Choose a broader or more complex option earlier than needed. Review Trigger Review this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "sourcePath": "docs/adr/0003-sqlite-primary-database.md"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "0004",
+    "slug": "fastapi-backend",
+    "title": "Use FastAPI For The Backend",
+    "status": "accepted",
+    "date": "2026-07-03",
+    "category": "backend",
+    "tags": [
+      "api",
+      "fastapi"
+    ],
+    "keywords": [
+      "Python API",
+      "web backend"
+    ],
+    "supersedes": [],
+    "supersededBy": [],
+    "markdown": "# ADR 0004: Use FastAPI For The Backend\n\n\n## Context\n\nThis project is a private, local-first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent.\n\n## Decision\n\nUse FastAPI, Pydantic, and SQLAlchemy for the backend API.\n\n## Consequences\n\nGives a typed Python API with automatic OpenAPI docs and good support for data workflows.\n\n## Alternatives Considered\n\n- Leave the decision implicit in chat history.\n- Let the coding agent infer the design.\n- Choose a broader or more complex option earlier than needed.\n\n## Review Trigger\n\nReview this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "searchText": "0004 Use FastAPI For The Backend accepted backend api fastapi Python API web backend # ADR 0004: Use FastAPI For The Backend Context This project is a private, local first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent. Decision Use FastAPI, Pydantic, and SQLAlchemy for the backend API. Consequences Gives a typed Python API with automatic OpenAPI docs and good support for data workflows. Alternatives Considered Leave the decision implicit in chat history. Let the coding agent infer the design. Choose a broader or more complex option earlier than needed. Review Trigger Review this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "sourcePath": "docs/adr/0004-fastapi-backend.md"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "0005",
+    "slug": "react-typescript-frontend",
+    "title": "Use React And TypeScript For The Frontend",
+    "status": "accepted",
+    "date": "2026-07-03",
+    "category": "frontend",
+    "tags": [
+      "react",
+      "typescript"
+    ],
+    "keywords": [
+      "browser application",
+      "Vite"
+    ],
+    "supersedes": [],
+    "supersededBy": [],
+    "markdown": "# ADR 0005: Use React And TypeScript For The Frontend\n\n\n## Context\n\nThis project is a private, local-first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent.\n\n## Decision\n\nUse React, TypeScript, Vite, and Tailwind CSS.\n\n## Consequences\n\nSupports interactive tables, filters, forms, map/calendar views, and type-safe API integration.\n\n## Alternatives Considered\n\n- Leave the decision implicit in chat history.\n- Let the coding agent infer the design.\n- Choose a broader or more complex option earlier than needed.\n\n## Review Trigger\n\nReview this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "searchText": "0005 Use React And TypeScript For The Frontend accepted frontend react typescript browser application Vite # ADR 0005: Use React And TypeScript For The Frontend Context This project is a private, local first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent. Decision Use React, TypeScript, Vite, and Tailwind CSS. Consequences Supports interactive tables, filters, forms, map/calendar views, and type safe API integration. Alternatives Considered Leave the decision implicit in chat history. Let the coding agent infer the design. Choose a broader or more complex option earlier than needed. Review Trigger Review this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "sourcePath": "docs/adr/0005-react-typescript-frontend.md"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "0006",
+    "slug": "normalized-relational-model",
+    "title": "Use A Normalized Relational Model",
+    "status": "accepted",
+    "date": "2026-07-03",
+    "category": "data",
+    "tags": [
+      "data-model",
+      "normalization"
+    ],
+    "keywords": [
+      "relational model",
+      "database design"
+    ],
+    "supersedes": [],
+    "supersededBy": [],
+    "markdown": "# ADR 0006: Use A Normalized Relational Model\n\n\n## Context\n\nThis project is a private, local-first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent.\n\n## Decision\n\nSeparate opportunity series, opportunities, venues, organisers, applications, operations, outcomes, documents, and sources.\n\n## Consequences\n\nAvoids duplication and supports year-over-year comparisons.\n\n## Alternatives Considered\n\n- Leave the decision implicit in chat history.\n- Let the coding agent infer the design.\n- Choose a broader or more complex option earlier than needed.\n\n## Review Trigger\n\nReview this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "searchText": "0006 Use A Normalized Relational Model accepted data data model normalization relational model database design # ADR 0006: Use A Normalized Relational Model Context This project is a private, local first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent. Decision Separate opportunity series, opportunities, venues, organisers, applications, operations, outcomes, documents, and sources. Consequences Avoids duplication and supports year over year comparisons. Alternatives Considered Leave the decision implicit in chat history. Let the coding agent infer the design. Choose a broader or more complex option earlier than needed. Review Trigger Review this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "sourcePath": "docs/adr/0006-normalized-relational-model.md"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "0007",
+    "slug": "opportunity-occurrences",
+    "title": "Represent Dated Vendor Chances As Opportunities",
+    "status": "accepted",
+    "date": "2026-07-03",
+    "category": "domain",
+    "tags": [
+      "opportunity",
+      "opportunity-series"
+    ],
+    "keywords": [
+      "dated vendor chance",
+      "recurring opportunity"
+    ],
+    "supersedes": [],
+    "supersededBy": [],
+    "markdown": "# ADR 0007: Represent Dated Vendor Chances As Opportunities\n\n\n## Context\n\nThis project is a private, local-first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent.\n\n## Decision\n\nUse Opportunity as the central dated planning entity; use Opportunity Series for recurring/named concepts.\n\n## Consequences\n\nAllows weekly/monthly/annual events to become individual planning records.\n\n## Alternatives Considered\n\n- Leave the decision implicit in chat history.\n- Let the coding agent infer the design.\n- Choose a broader or more complex option earlier than needed.\n\n## Review Trigger\n\nReview this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "searchText": "0007 Represent Dated Vendor Chances As Opportunities accepted domain opportunity opportunity series dated vendor chance recurring opportunity # ADR 0007: Represent Dated Vendor Chances As Opportunities Context This project is a private, local first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent. Decision Use Opportunity as the central dated planning entity; use Opportunity Series for recurring/named concepts. Consequences Allows weekly/monthly/annual events to become individual planning records. Alternatives Considered Leave the decision implicit in chat history. Let the coding agent infer the design. Choose a broader or more complex option earlier than needed. Review Trigger Review this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "sourcePath": "docs/adr/0007-opportunity-occurrences.md"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "0008",
+    "slug": "local-document-storage",
+    "title": "Store Documents Locally With Metadata",
+    "status": "accepted",
+    "date": "2026-07-03",
+    "category": "data",
+    "tags": [
+      "documents",
+      "local-storage"
+    ],
+    "keywords": [
+      "vendor documents",
+      "file metadata"
+    ],
+    "supersedes": [],
+    "supersededBy": [],
+    "markdown": "# ADR 0008: Store Documents Locally With Metadata\n\n\n## Context\n\nThis project is a private, local-first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent.\n\n## Decision\n\nStore vendor documents locally and link them with database metadata.\n\n## Consequences\n\nKeeps PDFs, maps, vendor packs, and rules available offline.\n\n## Alternatives Considered\n\n- Leave the decision implicit in chat history.\n- Let the coding agent infer the design.\n- Choose a broader or more complex option earlier than needed.\n\n## Review Trigger\n\nReview this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "searchText": "0008 Store Documents Locally With Metadata accepted data documents local storage vendor documents file metadata # ADR 0008: Store Documents Locally With Metadata Context This project is a private, local first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent. Decision Store vendor documents locally and link them with database metadata. Consequences Keeps PDFs, maps, vendor packs, and rules available offline. Alternatives Considered Leave the decision implicit in chat history. Let the coding agent infer the design. Choose a broader or more complex option earlier than needed. Review Trigger Review this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "sourcePath": "docs/adr/0008-local-document-storage.md"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "0009",
+    "slug": "csv-import-export-first-class",
+    "title": "Make CSV Import And Export First-Class",
+    "status": "accepted",
+    "date": "2026-07-03",
+    "category": "data",
+    "tags": [
+      "csv",
+      "portability"
+    ],
+    "keywords": [
+      "import export",
+      "spreadsheet"
+    ],
+    "supersedes": [],
+    "supersededBy": [],
+    "markdown": "# ADR 0009: Make CSV Import And Export First-Class\n\n\n## Context\n\nThis project is a private, local-first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent.\n\n## Decision\n\nSupport CSV import/export as core functionality, with validation and duplicate detection.\n\n## Consequences\n\nKeeps data portable and compatible with spreadsheets and AI-assisted workflows.\n\n## Alternatives Considered\n\n- Leave the decision implicit in chat history.\n- Let the coding agent infer the design.\n- Choose a broader or more complex option earlier than needed.\n\n## Review Trigger\n\nReview this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "searchText": "0009 Make CSV Import And Export First Class accepted data csv portability import export spreadsheet # ADR 0009: Make CSV Import And Export First Class Context This project is a private, local first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent. Decision Support CSV import/export as core functionality, with validation and duplicate detection. Consequences Keeps data portable and compatible with spreadsheets and AI assisted workflows. Alternatives Considered Leave the decision implicit in chat history. Let the coding agent infer the design. Choose a broader or more complex option earlier than needed. Review Trigger Review this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "sourcePath": "docs/adr/0009-csv-import-export-first-class.md"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "0010",
+    "slug": "milestones-not-semver",
+    "title": "Use Milestones Instead Of Semantic Versioning",
+    "status": "accepted",
+    "date": "2026-07-03",
+    "category": "process",
+    "tags": [
+      "milestones",
+      "planning"
+    ],
+    "keywords": [
+      "release planning",
+      "semantic versioning"
+    ],
+    "supersedes": [],
+    "supersededBy": [],
+    "markdown": "# ADR 0010: Use Milestones Instead Of Semantic Versioning\n\n\n## Context\n\nThis project is a private, local-first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent.\n\n## Decision\n\nOrganize development around milestones/checkpoints instead of public release versions.\n\n## Consequences\n\nBetter matches a private internal tool.\n\n## Alternatives Considered\n\n- Leave the decision implicit in chat history.\n- Let the coding agent infer the design.\n- Choose a broader or more complex option earlier than needed.\n\n## Review Trigger\n\nReview this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "searchText": "0010 Use Milestones Instead Of Semantic Versioning accepted process milestones planning release planning semantic versioning # ADR 0010: Use Milestones Instead Of Semantic Versioning Context This project is a private, local first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent. Decision Organize development around milestones/checkpoints instead of public release versions. Consequences Better matches a private internal tool. Alternatives Considered Leave the decision implicit in chat history. Let the coding agent infer the design. Choose a broader or more complex option earlier than needed. Review Trigger Review this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "sourcePath": "docs/adr/0010-milestones-not-semver.md"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "0011",
+    "slug": "schoonebeek-home-base",
+    "title": "Use Schoonebeek As The Default Home Base",
+    "status": "accepted",
+    "date": "2026-07-03",
+    "category": "product",
+    "tags": [
+      "distance",
+      "schoonebeek"
+    ],
+    "keywords": [
+      "home base",
+      "travel origin"
+    ],
+    "supersedes": [],
+    "supersededBy": [],
+    "markdown": "# ADR 0011: Use Schoonebeek As The Default Home Base\n\n\n## Context\n\nThis project is a private, local-first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent.\n\n## Decision\n\nUse Schoonebeek as the origin for distance and travel calculations.\n\n## Consequences\n\nMakes filtering and opportunity comparison practical.\n\n## Alternatives Considered\n\n- Leave the decision implicit in chat history.\n- Let the coding agent infer the design.\n- Choose a broader or more complex option earlier than needed.\n\n## Review Trigger\n\nReview this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "searchText": "0011 Use Schoonebeek As The Default Home Base accepted product distance schoonebeek home base travel origin # ADR 0011: Use Schoonebeek As The Default Home Base Context This project is a private, local first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent. Decision Use Schoonebeek as the origin for distance and travel calculations. Consequences Makes filtering and opportunity comparison practical. Alternatives Considered Leave the decision implicit in chat history. Let the coding agent infer the design. Choose a broader or more complex option earlier than needed. Review Trigger Review this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "sourcePath": "docs/adr/0011-schoonebeek-home-base.md"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "0012",
+    "slug": "research-provenance",
+    "title": "Track Research Provenance",
+    "status": "accepted",
+    "date": "2026-07-03",
+    "category": "data",
+    "tags": [
+      "provenance",
+      "research"
+    ],
+    "keywords": [
+      "source tracking",
+      "data audit"
+    ],
+    "supersedes": [],
+    "supersededBy": [],
+    "markdown": "# ADR 0012: Track Research Provenance\n\n\n## Context\n\nThis project is a private, local-first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent.\n\n## Decision\n\nStore source URLs, retrieval dates, verification dates, notes, and confidence ratings.\n\n## Consequences\n\nMakes researched data auditable and trustworthy.\n\n## Alternatives Considered\n\n- Leave the decision implicit in chat history.\n- Let the coding agent infer the design.\n- Choose a broader or more complex option earlier than needed.\n\n## Review Trigger\n\nReview this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "searchText": "0012 Track Research Provenance accepted data provenance research source tracking data audit # ADR 0012: Track Research Provenance Context This project is a private, local first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent. Decision Store source URLs, retrieval dates, verification dates, notes, and confidence ratings. Consequences Makes researched data auditable and trustworthy. Alternatives Considered Leave the decision implicit in chat history. Let the coding agent infer the design. Choose a broader or more complex option earlier than needed. Review Trigger Review this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "sourcePath": "docs/adr/0012-research-provenance.md"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "0013",
+    "slug": "visible-uncertainty",
+    "title": "Make Unknown And Estimated Values Visible",
+    "status": "accepted",
+    "date": "2026-07-03",
+    "category": "product",
+    "tags": [
+      "confidence",
+      "uncertainty"
+    ],
+    "keywords": [
+      "estimated values",
+      "unknown values"
+    ],
+    "supersedes": [],
+    "supersededBy": [],
+    "markdown": "# ADR 0013: Make Unknown And Estimated Values Visible\n\n\n## Context\n\nThis project is a private, local-first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent.\n\n## Decision\n\nRepresent unknown, estimated, published, and verified values explicitly.\n\n## Consequences\n\nPrevents guesses from being mistaken for confirmed data.\n\n## Alternatives Considered\n\n- Leave the decision implicit in chat history.\n- Let the coding agent infer the design.\n- Choose a broader or more complex option earlier than needed.\n\n## Review Trigger\n\nReview this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "searchText": "0013 Make Unknown And Estimated Values Visible accepted product confidence uncertainty estimated values unknown values # ADR 0013: Make Unknown And Estimated Values Visible Context This project is a private, local first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent. Decision Represent unknown, estimated, published, and verified values explicitly. Consequences Prevents guesses from being mistaken for confirmed data. Alternatives Considered Leave the decision implicit in chat history. Let the coding agent infer the design. Choose a broader or more complex option earlier than needed. Review Trigger Review this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "sourcePath": "docs/adr/0013-visible-uncertainty.md"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "0014",
+    "slug": "alembic-migrations",
+    "title": "Use Alembic For Database Migrations",
+    "status": "accepted",
+    "date": "2026-07-03",
+    "category": "data",
+    "tags": [
+      "alembic",
+      "migrations"
+    ],
+    "keywords": [
+      "schema migration",
+      "database evolution"
+    ],
+    "supersedes": [],
+    "supersededBy": [],
+    "markdown": "# ADR 0014: Use Alembic For Database Migrations\n\n\n## Context\n\nThis project is a private, local-first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent.\n\n## Decision\n\nManage all schema changes through Alembic migrations.\n\n## Consequences\n\nProtects real data as the schema evolves.\n\n## Alternatives Considered\n\n- Leave the decision implicit in chat history.\n- Let the coding agent infer the design.\n- Choose a broader or more complex option earlier than needed.\n\n## Review Trigger\n\nReview this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "searchText": "0014 Use Alembic For Database Migrations accepted data alembic migrations schema migration database evolution # ADR 0014: Use Alembic For Database Migrations Context This project is a private, local first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent. Decision Manage all schema changes through Alembic migrations. Consequences Protects real data as the schema evolves. Alternatives Considered Leave the decision implicit in chat history. Let the coding agent infer the design. Choose a broader or more complex option earlier than needed. Review Trigger Review this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "sourcePath": "docs/adr/0014-alembic-migrations.md"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "0015",
+    "slug": "thin-routes-services",
+    "title": "Keep API Routes Thin And Put Workflows In Services",
+    "status": "accepted",
+    "date": "2026-07-03",
+    "category": "backend",
+    "tags": [
+      "services",
+      "thin-routes"
+    ],
+    "keywords": [
+      "service layer",
+      "route handler"
+    ],
+    "supersedes": [],
+    "supersededBy": [],
+    "markdown": "# ADR 0015: Keep API Routes Thin And Put Workflows In Services\n\n\n## Context\n\nThis project is a private, local-first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent.\n\n## Decision\n\nKeep route handlers thin and place business workflows in service modules.\n\n## Consequences\n\nImproves testability and maintainability.\n\n## Alternatives Considered\n\n- Leave the decision implicit in chat history.\n- Let the coding agent infer the design.\n- Choose a broader or more complex option earlier than needed.\n\n## Review Trigger\n\nReview this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "searchText": "0015 Keep API Routes Thin And Put Workflows In Services accepted backend services thin routes service layer route handler # ADR 0015: Keep API Routes Thin And Put Workflows In Services Context This project is a private, local first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent. Decision Keep route handlers thin and place business workflows in service modules. Consequences Improves testability and maintainability. Alternatives Considered Leave the decision implicit in chat history. Let the coding agent infer the design. Choose a broader or more complex option earlier than needed. Review Trigger Review this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "sourcePath": "docs/adr/0015-thin-routes-services.md"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "0016",
+    "slug": "no-authentication-in-initial-scope",
+    "title": "Do Not Add Authentication Initially",
+    "status": "accepted",
+    "date": "2026-07-03",
+    "category": "security",
+    "tags": [
+      "authentication",
+      "local-first"
+    ],
+    "keywords": [
+      "single user",
+      "access control"
+    ],
+    "supersedes": [],
+    "supersededBy": [],
+    "markdown": "# ADR 0016: Do Not Add Authentication Initially\n\n\n## Context\n\nThis project is a private, local-first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent.\n\n## Decision\n\nDo not implement authentication while the app is local-first and single-user.\n\n## Consequences\n\nAvoids unnecessary complexity.\n\n## Alternatives Considered\n\n- Leave the decision implicit in chat history.\n- Let the coding agent infer the design.\n- Choose a broader or more complex option earlier than needed.\n\n## Review Trigger\n\nReview this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "searchText": "0016 Do Not Add Authentication Initially accepted security authentication local first single user access control # ADR 0016: Do Not Add Authentication Initially Context This project is a private, local first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent. Decision Do not implement authentication while the app is local first and single user. Consequences Avoids unnecessary complexity. Alternatives Considered Leave the decision implicit in chat history. Let the coding agent infer the design. Choose a broader or more complex option earlier than needed. Review Trigger Review this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "sourcePath": "docs/adr/0016-no-authentication-in-initial-scope.md"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "0017",
+    "slug": "no-scraping-in-initial-scope",
+    "title": "Do Not Start With Automated Scraping",
+    "status": "accepted",
+    "date": "2026-07-03",
+    "category": "product",
+    "tags": [
+      "research",
+      "scraping"
+    ],
+    "keywords": [
+      "data collection",
+      "manual entry"
+    ],
+    "supersedes": [],
+    "supersededBy": [],
+    "markdown": "# ADR 0017: Do Not Start With Automated Scraping\n\n\n## Context\n\nThis project is a private, local-first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent.\n\n## Decision\n\nStart with manual entry, CSV import/export, and source tracking, not scrapers.\n\n## Consequences\n\nAvoids brittle automation before the data model is stable.\n\n## Alternatives Considered\n\n- Leave the decision implicit in chat history.\n- Let the coding agent infer the design.\n- Choose a broader or more complex option earlier than needed.\n\n## Review Trigger\n\nReview this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "searchText": "0017 Do Not Start With Automated Scraping accepted product research scraping data collection manual entry # ADR 0017: Do Not Start With Automated Scraping Context This project is a private, local first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent. Decision Start with manual entry, CSV import/export, and source tracking, not scrapers. Consequences Avoids brittle automation before the data model is stable. Alternatives Considered Leave the decision implicit in chat history. Let the coding agent infer the design. Choose a broader or more complex option earlier than needed. Review Trigger Review this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "sourcePath": "docs/adr/0017-no-scraping-in-initial-scope.md"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "0018",
+    "slug": "tests-for-business-logic",
+    "title": "Test Business Logic",
+    "status": "accepted",
+    "date": "2026-07-03",
+    "category": "process",
+    "tags": [
+      "business-logic",
+      "testing"
+    ],
+    "keywords": [
+      "automated tests",
+      "quality assurance"
+    ],
+    "supersedes": [],
+    "supersededBy": [],
+    "markdown": "# ADR 0018: Test Business Logic\n\n\n## Context\n\nThis project is a private, local-first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent.\n\n## Decision\n\nAdd tests for import, duplicate detection, search filters, scoring, and calendar feed generation.\n\n## Consequences\n\nMakes Codex-generated changes safer.\n\n## Alternatives Considered\n\n- Leave the decision implicit in chat history.\n- Let the coding agent infer the design.\n- Choose a broader or more complex option earlier than needed.\n\n## Review Trigger\n\nReview this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "searchText": "0018 Test Business Logic accepted process business logic testing automated tests quality assurance # ADR 0018: Test Business Logic Context This project is a private, local first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent. Decision Add tests for import, duplicate detection, search filters, scoring, and calendar feed generation. Consequences Makes Codex generated changes safer. Alternatives Considered Leave the decision implicit in chat history. Let the coding agent infer the design. Choose a broader or more complex option earlier than needed. Review Trigger Review this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "sourcePath": "docs/adr/0018-tests-for-business-logic.md"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "0019",
+    "slug": "ai-agent-doc-compliance",
+    "title": "Require AI Coding Agents To Follow Documentation",
+    "status": "accepted",
+    "date": "2026-07-03",
+    "category": "process",
+    "tags": [
+      "ai-agents",
+      "documentation"
+    ],
+    "keywords": [
+      "coding agent rules",
+      "documentation compliance"
+    ],
+    "supersedes": [],
+    "supersededBy": [],
+    "markdown": "# ADR 0019: Require AI Coding Agents To Follow Documentation\n\n\n## Context\n\nThis project is a private, local-first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent.\n\n## Decision\n\nAI coding agents must follow docs and ADRs; architectural changes require new or updated ADRs.\n\n## Consequences\n\nPrevents the agent from inventing architecture or expanding scope unexpectedly.\n\n## Alternatives Considered\n\n- Leave the decision implicit in chat history.\n- Let the coding agent infer the design.\n- Choose a broader or more complex option earlier than needed.\n\n## Review Trigger\n\nReview this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "searchText": "0019 Require AI Coding Agents To Follow Documentation accepted process ai agents documentation coding agent rules documentation compliance # ADR 0019: Require AI Coding Agents To Follow Documentation Context This project is a private, local first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent. Decision AI coding agents must follow docs and ADRs; architectural changes require new or updated ADRs. Consequences Prevents the agent from inventing architecture or expanding scope unexpectedly. Alternatives Considered Leave the decision implicit in chat history. Let the coding agent infer the design. Choose a broader or more complex option earlier than needed. Review Trigger Review this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "sourcePath": "docs/adr/0019-ai-agent-doc-compliance.md"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "0020",
+    "slug": "private-portable-tool",
+    "title": "Optimize For A Private Portable Business Tool",
+    "status": "accepted",
+    "date": "2026-07-03",
+    "category": "product",
+    "tags": [
+      "local-first",
+      "portability"
+    ],
+    "keywords": [
+      "private tool",
+      "single user"
+    ],
+    "supersedes": [],
+    "supersededBy": [],
+    "markdown": "# ADR 0020: Optimize For A Private Portable Business Tool\n\n\n## Context\n\nThis project is a private, local-first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent.\n\n## Decision\n\nOptimize for one user’s private workflow rather than a public SaaS product.\n\n## Consequences\n\nKeeps product decisions practical.\n\n## Alternatives Considered\n\n- Leave the decision implicit in chat history.\n- Let the coding agent infer the design.\n- Choose a broader or more complex option earlier than needed.\n\n## Review Trigger\n\nReview this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "searchText": "0020 Optimize For A Private Portable Business Tool accepted product local first portability private tool single user # ADR 0020: Optimize For A Private Portable Business Tool Context This project is a private, local first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent. Decision Optimize for one user’s private workflow rather than a public SaaS product. Consequences Keeps product decisions practical. Alternatives Considered Leave the decision implicit in chat history. Let the coding agent infer the design. Choose a broader or more complex option earlier than needed. Review Trigger Review this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "sourcePath": "docs/adr/0020-private-portable-tool.md"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "0021",
+    "slug": "map-and-calendar-planning-tools",
+    "title": "Add Map And Calendar Planning Tools",
+    "status": "proposed",
+    "date": "2026-07-03",
+    "category": "frontend",
+    "tags": [
+      "calendar",
+      "map"
+    ],
+    "keywords": [
+      "planning views",
+      "Leaflet",
+      "FullCalendar"
+    ],
+    "supersedes": [],
+    "supersededBy": [],
+    "markdown": "# ADR 0021: Add Map And Calendar Planning Tools\n\n\n## Context\n\nThis project is a private, local-first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent.\n\n## Decision\n\nAdd Leaflet map and FullCalendar planning views after CRUD/import foundations are stable.\n\n## Consequences\n\nSupports spatial and scheduling decisions.\n\n## Alternatives Considered\n\n- Leave the decision implicit in chat history.\n- Let the coding agent infer the design.\n- Choose a broader or more complex option earlier than needed.\n\n## Review Trigger\n\nReview this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "searchText": "0021 Add Map And Calendar Planning Tools proposed frontend calendar map planning views Leaflet FullCalendar # ADR 0021: Add Map And Calendar Planning Tools Context This project is a private, local first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent. Decision Add Leaflet map and FullCalendar planning views after CRUD/import foundations are stable. Consequences Supports spatial and scheduling decisions. Alternatives Considered Leave the decision implicit in chat history. Let the coding agent infer the design. Choose a broader or more complex option earlier than needed. Review Trigger Review this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "sourcePath": "docs/adr/0021-map-and-calendar-planning-tools.md"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "0022",
+    "slug": "use-opportunity-and-operation-domain-language",
+    "title": "Use Opportunity And Operation Domain Language",
+    "status": "accepted",
+    "date": "2026-07-03",
+    "category": "domain",
+    "tags": [
+      "application",
+      "operation",
+      "opportunity"
+    ],
+    "keywords": [
+      "domain language",
+      "event terminology",
+      "trading terminology"
+    ],
+    "supersedes": [],
+    "supersededBy": [],
+    "markdown": "# ADR 0022: Use Opportunity And Operation Domain Language\n\n\n## Context\n\nThe terms event and trading are ambiguous. The product needs cleaner domain language that distinguishes possible vending chances from real committed business activity while staying coherent across API, database, UI, and documentation.\n\n## Decision\n\nUse Opportunity, Application, Operation, Operation Outcome, and Calendar Feed as core terms.\n\n- Opportunity: a possible vending opportunity.\n- Application: the process of applying or reserving.\n- Operation: a committed real-world plan to attend.\n- Operation Outcome: the actual results after attending.\n\n## Consequences\n\n- API, database, UI, and docs should use this language.\n- Existing event/trading terms should be refactored where practical.\n- Public-facing event names may still contain “event” when that is their official name.\n- The model aligns with how the business is actually planned and executed.\n\n## Alternatives Considered\n\n- Leave the decision implicit in chat history.\n- Let the coding agent infer the design.\n- Choose a broader or more complex option earlier than needed.\n\n## Review Trigger\n\nReview this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "searchText": "0022 Use Opportunity And Operation Domain Language accepted domain application operation opportunity domain language event terminology trading terminology # ADR 0022: Use Opportunity And Operation Domain Language Context The terms event and trading are ambiguous. The product needs cleaner domain language that distinguishes possible vending chances from real committed business activity while staying coherent across API, database, UI, and documentation. Decision Use Opportunity, Application, Operation, Operation Outcome, and Calendar Feed as core terms. Opportunity: a possible vending opportunity. Application: the process of applying or reserving. Operation: a committed real world plan to attend. Operation Outcome: the actual results after attending. Consequences API, database, UI, and docs should use this language. Existing event/trading terms should be refactored where practical. Public facing event names may still contain “event” when that is their official name. The model aligns with how the business is actually planned and executed. Alternatives Considered Leave the decision implicit in chat history. Let the coding agent infer the design. Choose a broader or more complex option earlier than needed. Review Trigger Review this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "sourcePath": "docs/adr/0022-use-opportunity-and-operation-domain-language.md"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "0023",
+    "slug": "separate-opportunities-from-operations",
+    "title": "Separate Opportunities From Operations",
+    "status": "accepted",
+    "date": "2026-07-03",
+    "category": "domain",
+    "tags": [
+      "operation",
+      "opportunity"
+    ],
+    "keywords": [
+      "committed work",
+      "discovery record"
+    ],
+    "supersedes": [],
+    "supersededBy": [],
+    "markdown": "# ADR 0023: Separate Opportunities From Operations\n\n\n## Context\n\nThis project is a private, local-first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent.\n\n## Decision\n\nKeep possible vending chances separate from committed real-world operations and actual outcomes.\n\n## Consequences\n\nKeeps discovery, planning, and performance data cleanly separated.\n\n## Alternatives Considered\n\n- Leave the decision implicit in chat history.\n- Let the coding agent infer the design.\n- Choose a broader or more complex option earlier than needed.\n\n## Review Trigger\n\nReview this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "searchText": "0023 Separate Opportunities From Operations accepted domain operation opportunity committed work discovery record # ADR 0023: Separate Opportunities From Operations Context This project is a private, local first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent. Decision Keep possible vending chances separate from committed real world operations and actual outcomes. Consequences Keeps discovery, planning, and performance data cleanly separated. Alternatives Considered Leave the decision implicit in chat history. Let the coding agent infer the design. Choose a broader or more complex option earlier than needed. Review Trigger Review this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "sourcePath": "docs/adr/0023-separate-opportunities-from-operations.md"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "0024",
+    "slug": "ics-calendar-feeds",
+    "title": "Provide Read-Only ICS Calendar Feeds",
+    "status": "proposed",
+    "date": "2026-07-03",
+    "category": "architecture",
+    "tags": [
+      "calendar",
+      "ics"
+    ],
+    "keywords": [
+      "iCalendar feed",
+      "calendar subscription"
+    ],
+    "supersedes": [],
+    "supersededBy": [],
+    "markdown": "# ADR 0024: Provide Read-Only ICS Calendar Feeds\n\n\n## Context\n\nThis project is a private, local-first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent.\n\n## Decision\n\nProvide subscribable read-only iCalendar feeds for opportunities, filtered opportunities, deadlines, operations, and tasks.\n\n## Consequences\n\nLets Apple Calendar, Google Calendar, and Outlook subscribe without two-way sync complexity.\n\n## Alternatives Considered\n\n- Leave the decision implicit in chat history.\n- Let the coding agent infer the design.\n- Choose a broader or more complex option earlier than needed.\n\n## Review Trigger\n\nReview this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "searchText": "0024 Provide Read Only ICS Calendar Feeds proposed architecture calendar ics iCalendar feed calendar subscription # ADR 0024: Provide Read Only ICS Calendar Feeds Context This project is a private, local first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent. Decision Provide subscribable read only iCalendar feeds for opportunities, filtered opportunities, deadlines, operations, and tasks. Consequences Lets Apple Calendar, Google Calendar, and Outlook subscribe without two way sync complexity. Alternatives Considered Leave the decision implicit in chat history. Let the coding agent infer the design. Choose a broader or more complex option earlier than needed. Review Trigger Review this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "sourcePath": "docs/adr/0024-ics-calendar-feeds.md"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "0025",
+    "slug": "commerce-inventory-deferred",
+    "title": "Defer Commerce And Inventory Features",
+    "status": "accepted",
+    "date": "2026-07-03",
+    "category": "product",
+    "tags": [
+      "commerce",
+      "scope"
+    ],
+    "keywords": [
+      "inventory",
+      "point of sale",
+      "orders"
+    ],
+    "supersedes": [],
+    "supersededBy": [],
+    "markdown": "# ADR 0025: Defer Commerce And Inventory Features\n\n\n## Context\n\nThis project is a private, local-first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent.\n\n## Decision\n\nDefer product catalog, inventory, barcodes, QR codes, orders, shipments, customers, and delivery tracking.\n\n## Consequences\n\nCaptures the future direction while keeping current milestones focused.\n\n## Alternatives Considered\n\n- Leave the decision implicit in chat history.\n- Let the coding agent infer the design.\n- Choose a broader or more complex option earlier than needed.\n\n## Review Trigger\n\nReview this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "searchText": "0025 Defer Commerce And Inventory Features accepted product commerce scope inventory point of sale orders # ADR 0025: Defer Commerce And Inventory Features Context This project is a private, local first operating system for discovering opportunities and planning operations for a food vending business in and around Drenthe. It will likely be implemented over multiple sessions with help from AI coding agents. Decisions must be explicit so the project stays coherent. Decision Defer product catalog, inventory, barcodes, QR codes, orders, shipments, customers, and delivery tracking. Consequences Captures the future direction while keeping current milestones focused. Alternatives Considered Leave the decision implicit in chat history. Let the coding agent infer the design. Choose a broader or more complex option earlier than needed. Review Trigger Review this ADR if the project scope, deployment model, data model, or primary workflow changes materially.",
+    "sourcePath": "docs/adr/0025-commerce-inventory-deferred.md"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "0026",
+    "slug": "venue-management",
+    "title": "Treat Venues As Managed Domain Records",
+    "status": "proposed",
+    "date": "2026-07-03",
+    "category": "domain",
+    "tags": [
+      "location",
+      "venue"
+    ],
+    "keywords": [
+      "venue management",
+      "geocoding",
+      "address"
+    ],
+    "supersedes": [],
+    "supersededBy": [],
+    "markdown": "# ADR 0026: Treat Venues As Managed Domain Records\n\n\n## Context\n\nOpportunities and operations repeatedly refer to physical venues. Keeping venue details only as free text would duplicate addresses, coordinates, access notes, and contact information and would weaken map, distance, and year-over-year planning.\n\n## Decision\n\nTreat venues as managed domain records that opportunities can reference. Keep stable place information on the venue and keep opportunity- or operation-specific arrangements on their respective records.\n\n## Consequences\n\n- Addresses, coordinates, accessibility details, and stable venue notes can be reused.\n- Opportunity dates, application details, setup instructions, and outcomes do not belong on the venue.\n- Venue corrections can improve future planning without rewriting historical operational facts.\n\n## Alternatives Considered\n\n- Store the venue as free text on every opportunity.\n- Copy all planning and outcome details onto venue records.\n- Introduce a third-party venue service as the source of truth.\n\n## Review Trigger\n\nReview this ADR if venue identity, geocoding, or historical-address requirements need a more specialized model.",
+    "searchText": "0026 Treat Venues As Managed Domain Records proposed domain location venue venue management geocoding address # ADR 0026: Treat Venues As Managed Domain Records Context Opportunities and operations repeatedly refer to physical venues. Keeping venue details only as free text would duplicate addresses, coordinates, access notes, and contact information and would weaken map, distance, and year over year planning. Decision Treat venues as managed domain records that opportunities can reference. Keep stable place information on the venue and keep opportunity or operation specific arrangements on their respective records. Consequences Addresses, coordinates, accessibility details, and stable venue notes can be reused. Opportunity dates, application details, setup instructions, and outcomes do not belong on the venue. Venue corrections can improve future planning without rewriting historical operational facts. Alternatives Considered Store the venue as free text on every opportunity. Copy all planning and outcome details onto venue records. Introduce a third party venue service as the source of truth. Review Trigger Review this ADR if venue identity, geocoding, or historical address requirements need a more specialized model.",
+    "sourcePath": "docs/adr/0026-venue-management.md"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "0027",
+    "slug": "filesystem-backed-decision-log",
+    "title": "Use A Filesystem-Backed Decision Log",
+    "status": "accepted",
+    "date": "2026-07-03",
+    "category": "architecture",
+    "tags": [
+      "adr",
+      "documentation",
+      "local-first"
+    ],
+    "keywords": [
+      "decision record",
+      "architecture history",
+      "docs subdomain"
+    ],
+    "supersedes": [],
+    "supersededBy": [],
+    "markdown": "# ADR 0027: Use A Filesystem-Backed Decision Log\n\n## Context\n\nArchitecture decisions must remain portable, reviewable in Git, usable by coding agents, and readable in a browser. A database-backed decision log would duplicate repository documentation and make the database an unnecessary dependency for project governance.\n\n## Decision\n\nKeep ADR Markdown files in `docs/adr/` as the only record store. Generate a read-only decision-log site from those files and serve it on the configured docs subdomain. Route creation and modification through a local-only API that validates structured proposals, allocates immutable identifiers, and writes canonical files without performing Git operations.\n\n## Consequences\n\n- Git remains the history, review, rollback, and audit mechanism.\n- The public documentation site is static and requires no database or runtime API.\n- ADR metadata must follow a strict machine-readable schema.\n- Local authoring requires the gatekeeper API to be running and the ADR directory to be writable.\n- Deployments rebuild the static documentation bundle when decisions change.\n\n## Alternatives Considered\n\n- Store ADRs in an application database table.\n- Allow coding agents and contributors to edit ADR files without validation.\n- Render ADR files through a public runtime API.\n- Adopt a hosted documentation or decision-management service.\n\n## Review Trigger\n\nReview this ADR if multiple concurrent authors, remote authoring, or a repository split makes local filesystem locking and Git review insufficient.",
+    "searchText": "0027 Use A Filesystem Backed Decision Log accepted architecture adr documentation local first decision record architecture history docs subdomain # ADR 0027: Use A Filesystem Backed Decision Log Context Architecture decisions must remain portable, reviewable in Git, usable by coding agents, and readable in a browser. A database backed decision log would duplicate repository documentation and make the database an unnecessary dependency for project governance. Decision Keep ADR Markdown files in docs/adr/ as the only record store. Generate a read only decision log site from those files and serve it on the configured docs subdomain. Route creation and modification through a local only API that validates structured proposals, allocates immutable identifiers, and writes canonical files without performing Git operations. Consequences Git remains the history, review, rollback, and audit mechanism. The public documentation site is static and requires no database or runtime API. ADR metadata must follow a strict machine readable schema. Local authoring requires the gatekeeper API to be running and the ADR directory to be writable. Deployments rebuild the static documentation bundle when decisions change. Alternatives Considered Store ADRs in an application database table. Allow coding agents and contributors to edit ADR files without validation. Render ADR files through a public runtime API. Adopt a hosted documentation or decision management service. Review Trigger Review this ADR if multiple concurrent authors, remote authoring, or a repository split makes local filesystem locking and Git review insufficient.",
+    "sourcePath": "docs/adr/0027-filesystem-backed-decision-log.md"
+  }
+]
