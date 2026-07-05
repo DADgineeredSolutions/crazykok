@@ -1,0 +1,164 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    name: Backend tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Run backend tests
+        run: python -m pytest
+
+  frontend:
+    name: Frontend tests and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run frontend tests
+        run: npm test
+
+      - name: Build frontend
+        run: npm run build
+
+      - name: Check generated decision log
+        run: git diff --exit-code -- src/docs/generated/adrs.json
+
+  api-contract:
+    name: API contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      ADR_AUTHORING_ENABLED: "false"
+      ATTACHMENT_ROOT: /tmp/crazykok-attachments
+      DATABASE_URL: sqlite:////tmp/crazykok-ci.db
+      DATA_DIR: /tmp/crazykok-data
+    steps:
+      - name: Check out repository history
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt -r requirements-dev.txt
+
+      - name: Check generated OpenAPI baseline
+        run: python scripts/export_openapi.py --output docs/api/openapi/openapi.json --check
+
+      - name: Install oasdiff 1.21.0
+        run: |
+          curl --fail --location --silent --show-error \
+            --output /tmp/oasdiff.deb \
+            https://github.com/oasdiff/oasdiff/releases/download/v1.21.0/oasdiff_1.21.0_linux_amd64.deb
+          echo "f5e1349d2297185e5a35d8433ac60d7b94e85997329ce522aab95e8d47119340  /tmp/oasdiff.deb" \
+            | sha256sum --check --strict
+          sudo dpkg --install /tmp/oasdiff.deb
+          oasdiff --version
+
+      - name: Find previous API baseline
+        id: api_base
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          if [[ -n "$BASE_SHA" \
+            && "$BASE_SHA" != "0000000000000000000000000000000000000000" ]] \
+            && git cat-file -e "$BASE_SHA:docs/api/openapi/openapi.json" 2>/dev/null; then
+            git show "$BASE_SHA:docs/api/openapi/openapi.json" > /tmp/crazykok-openapi-base.json
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No previous API baseline is available; skipping compatibility comparison."
+            echo "available=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Reject breaking API changes
+        if: steps.api_base.outputs.available == 'true'
+        run: scripts/check_api_compatibility.sh /tmp/crazykok-openapi-base.json /tmp/crazykok-openapi-candidate.json
+
+      - name: Apply database migrations
+        run: alembic -c backend/alembic.ini upgrade head
+
+      - name: Run live API fitness checks
+        shell: bash
+        run: |
+          uvicorn backend.app.main:app --host 127.0.0.1 --port 8000 &
+          api_pid=$!
+          trap 'kill "$api_pid"' EXIT
+
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:8000/health >/dev/null; then
+              break
+            fi
+            if [[ "$attempt" -eq 30 ]]; then
+              echo "API did not become healthy in time." >&2
+              exit 1
+            fi
+            sleep 1
+          done
+
+          scripts/run_api_fitness.sh
+
+  containers:
+    name: Container builds
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+
+      - name: Validate Compose configuration
+        run: docker compose config --quiet
+
+      - name: Build service images
+        run: docker compose build

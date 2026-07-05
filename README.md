@@ -1,5 +1,7 @@
 # CrazyKok
 
+[![CI](https://github.com/hardcore-softwaredad/crazykok/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/hardcore-softwaredad/crazykok/actions/workflows/ci.yml?query=branch%3Amain)
+
 CrazyKok is a local-first business intelligence and operations tool for a
 mobile food vendor. It brings opportunity research, venue knowledge,
 applications, operational planning, and results into one durable system so the
@@ -66,6 +68,7 @@ cloud service to run. See [Architecture](docs/ARCHITECTURE.md) and
 | API quality | Pytest, snapshot drift checks, oasdiff, Schemathesis |
 | Edge and packaging | Docker Compose, multi-stage images, Nginx, local HTTPS |
 | API reference | Self-hosted Scalar |
+| Continuous integration | GitHub Actions |
 
 ## Modules and decisions
 
@@ -78,6 +81,7 @@ cloud service to run. See [Architecture](docs/ARCHITECTURE.md) and
 | [`docs/api/`](docs/api/) | Generated OpenAPI baseline and the replaceable interactive API-reference shell. | [generated API contract](docs/adr/0030-publish-a-generated-openapi-contract-with-replaceable-interactive-docs.md) |
 | [`docs/`](docs/) | Engineering guidance, domain documentation, and filesystem-backed ADRs. | [record decisions](docs/adr/0001-record-architecture-decisions.md), [filesystem decision log](docs/adr/0027-filesystem-backed-decision-log.md) |
 | [`schemas/`](schemas/) and [`templates/`](templates/) | Machine-readable venue import schema and CSV starter files. | [CSV as a first-class interface](docs/adr/0009-csv-import-export-first-class.md), [managed venue records](docs/adr/0026-venue-management.md) |
+| [`.github/workflows/ci.yml`](.github/workflows/ci.yml) | Backend, frontend, API-contract, and container verification for pushes and pull requests. | [tests for business logic](docs/adr/0018-tests-for-business-logic.md), [generated API contract](docs/adr/0030-publish-a-generated-openapi-contract-with-replaceable-interactive-docs.md) |
 
 The main business entities and their boundaries are defined in the
 [Domain Model](docs/DOMAIN_MODEL.md). Particularly relevant decisions are
@@ -178,7 +182,9 @@ npm run build
 HTTP route or public-model changes must also follow the
 [API contract workflow](docs/api/README.md), including contract regeneration,
 compatibility review, and fitness testing. See [Testing](docs/TESTING.md) for
-the complete test matrix.
+the complete test matrix. The same core checks run in
+[GitHub Actions](.github/workflows/ci.yml) on pushes and pull requests to
+`main`; the badge at the top of this README reports the latest `main` result.
 
 ## Working on the project
 
