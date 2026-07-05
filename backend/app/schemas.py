@@ -3,8 +3,10 @@ from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from .api_models import UTCModel
 
-class OpportunityBase(BaseModel):
+
+class OpportunityBase(UTCModel):
     name: str = Field(..., min_length=1, max_length=255)
     description: Optional[str] = None
     location: Optional[str] = None
@@ -18,7 +20,7 @@ class OpportunityBase(BaseModel):
     expected_revenue: Optional[int] = None
     expected_attendance: Optional[int] = None
     is_active: bool = True
-    venue_id: Optional[int] = Field(default=None, ge=1)
+    venue_id: Optional[int] = Field(default=None, ge=1, le=2_147_483_647)
 
 
 class OpportunityCreate(OpportunityBase):
@@ -39,7 +41,7 @@ class OpportunityUpdate(BaseModel):
     expected_revenue: Optional[int] = None
     expected_attendance: Optional[int] = None
     is_active: Optional[bool] = None
-    venue_id: Optional[int] = Field(default=None, ge=1)
+    venue_id: Optional[int] = Field(default=None, ge=1, le=2_147_483_647)
 
 
 class OpportunityRead(OpportunityBase):

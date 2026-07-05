@@ -7,6 +7,8 @@ button, select { cursor: pointer; }
 :focus-visible { outline: 3px solid #f1a33c; outline-offset: 3px; }
 .docs-site { min-height: 100vh; display: flex; flex-direction: column; }
 .docs-header { height: 72px; padding: 0 max(24px, calc((100vw - 1120px) / 2)); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #d8d2c3; background: rgba(250, 248, 242, .88); backdrop-filter: blur(12px); }
+.docs-header nav { display: flex; gap: 18px; margin-left: auto; margin-right: 24px; font-size: .86rem; font-weight: 700; }
+.docs-header nav a { color: #355248; text-decoration: none; }
 .docs-brand { display: flex; gap: 10px; align-items: center; color: #152822; text-decoration: none; font-weight: 600; }
 .docs-brand img { width: 36px; height: 36px; object-fit: cover; border-radius: 50%; }
 .docs-brand strong { color: #a54a2c; }
@@ -16,6 +18,16 @@ main { width: min(1120px, calc(100% - 40px)); margin: 0 auto; flex: 1; }
 .docs-kicker, .decision-id { margin: 0 0 8px; color: #a54a2c; font-size: .74rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
 .docs-hero h1, .adr-document h1, .not-found h1 { margin: 0; font: 400 clamp(3rem, 8vw, 6.8rem)/.95 Georgia, serif; letter-spacing: -.035em; }
 .docs-hero > p:last-child { max-width: 680px; margin: 24px 0 0; color: #53645e; font-size: 1.14rem; line-height: 1.65; }
+.portal-hero { padding-bottom: 54px; }
+.portal-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; padding-bottom: 80px; }
+.portal-grid article { position: relative; min-height: 285px; overflow: hidden; border: 1px solid #d8d2c3; border-radius: 18px; background: rgba(255, 253, 248, .88); padding: 34px; box-shadow: 0 16px 50px rgba(55, 48, 34, .06); }
+.portal-grid article:last-child { background: #18382e; color: #f6f0e3; }
+.portal-grid h2 { margin: 35px 0 12px; font: 400 2.3rem Georgia, serif; }
+.portal-grid p { max-width: 470px; color: #65756f; line-height: 1.65; }
+.portal-grid article:last-child p { color: #c5d5cf; }
+.portal-grid a { display: inline-block; margin-top: 18px; color: #a54a2c; font-weight: 800; text-decoration: none; }
+.portal-grid article:last-child a { color: #f1b35f; }
+.portal-number { color: #a54a2c; font-size: .72rem; font-weight: 800; letter-spacing: .12em; }
 .search-panel { display: grid; grid-template-columns: minmax(240px, 2fr) repeat(4, 1fr) auto; gap: 12px; align-items: end; padding: 18px; border: 1px solid #d7d0c1; border-radius: 16px; background: #fffdf8; box-shadow: 0 16px 50px rgba(55, 48, 34, .06); }
 .search-panel label { display: grid; gap: 7px; color: #53645e; font-size: .74rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; }
 .search-panel input, .search-panel select { width: 100%; min-height: 42px; border: 1px solid #c9c1b0; border-radius: 8px; background: #fff; color: #152822; padding: 9px 11px; text-transform: none; letter-spacing: 0; }
@@ -59,4 +71,4 @@ mark { border-radius: 2px; background: #ffe08a; color: inherit; padding: 0 1px; 
 .record-navigation small { color: #a54a2c; text-transform: uppercase; letter-spacing: .08em; }
 footer { padding: 25px; border-top: 1px solid #d8d2c3; color: #718079; text-align: center; font-size: .8rem; }
 @media (max-width: 900px) { .search-panel { grid-template-columns: repeat(2, 1fr); } .search-field { grid-column: 1 / -1; } }
-@media (max-width: 680px) { .read-only { display: none; } main { width: min(100% - 24px, 1120px); } .docs-hero { padding-top: 48px; } .search-panel, .decision-list { grid-template-columns: 1fr; } .adr-document > header, .markdown { padding: 32px 24px; } .adr-meta { display: grid; grid-template-columns: 1fr 1fr; } .record-navigation { grid-template-columns: 1fr; } }
+@media (max-width: 680px) { .read-only { display: none; } .docs-header nav { margin-right: 0; } main { width: min(100% - 24px, 1120px); } .docs-hero { padding-top: 48px; } .portal-grid, .search-panel, .decision-list { grid-template-columns: 1fr; } .adr-document > header, .markdown { padding: 32px 24px; } .adr-meta { display: grid; grid-template-columns: 1fr 1fr; } .record-navigation { grid-template-columns: 1fr; } }

@@ -54,3 +54,21 @@ validate, create, and update ADRs through the loopback-only internal authoring
 API. Do not choose ADR numbers or edit `docs/adr/*.md` directly. The documented
 bootstrap/recovery exception applies only while the gatekeeper itself is being
 introduced or repaired. Git staging and commits remain separate from the API.
+
+## API Contract Rule
+
+Read `docs/api/README.md` before changing an HTTP route or public model. The
+generated OpenAPI document is part of the feature, not cleanup for later.
+
+After changing a path, method, parameter, request or response field, media
+type, status code, error, or HAL relation:
+
+1. run backend contract tests;
+2. regenerate `docs/api/openapi/openapi.json` with the exporter;
+3. inspect the diff and run the oasdiff compatibility gate;
+4. run the safe Schemathesis fitness profile; and
+5. verify the interactive reference and live HAL actions.
+
+Never edit the generated baseline by hand, expose `/internal` routes, silently
+accept a breaking diff, or customize Scalar/another renderer through a fork
+when a standards-based local extension can keep the renderer replaceable.

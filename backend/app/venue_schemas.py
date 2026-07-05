@@ -7,10 +7,11 @@ from urllib.parse import urlparse
 
 from pydantic import BaseModel, ConfigDict, Field, create_model, model_validator
 
+from .api_models import UTCModel
 from .venue_registry import VENUE_FIELDS
 
 
-class VenueValidationBase(BaseModel):
+class VenueValidationBase(UTCModel):
     model_config = ConfigDict(extra="forbid", from_attributes=True)
 
     @model_validator(mode="after")
@@ -97,7 +98,7 @@ class DuplicateCheckRequest(BaseModel):
     website_url: str | None = None
 
 
-class VenueContactBase(BaseModel):
+class VenueContactBase(UTCModel):
     model_config = ConfigDict(from_attributes=True, extra="forbid")
     contact_external_id: str
     contact_type: str | None = None
@@ -126,7 +127,7 @@ class VenueContactRead(VenueContactBase):
     updated_at: datetime
 
 
-class VenueAliasBase(BaseModel):
+class VenueAliasBase(UTCModel):
     model_config = ConfigDict(from_attributes=True, extra="forbid")
     alias_external_id: str
     alias: str
@@ -147,7 +148,7 @@ class VenueAliasRead(VenueAliasBase):
     updated_at: datetime
 
 
-class VenueDocumentBase(BaseModel):
+class VenueDocumentBase(UTCModel):
     model_config = ConfigDict(from_attributes=True, extra="forbid")
     document_external_id: str
     document_type: str
@@ -178,7 +179,7 @@ class VenueDocumentRead(VenueDocumentBase):
     updated_at: datetime
 
 
-class VenuePhotoCreate(BaseModel):
+class VenuePhotoCreate(UTCModel):
     model_config = ConfigDict(extra="forbid")
     title: str | None = None
     caption: str | None = None
@@ -203,7 +204,7 @@ class VenuePhotoRead(VenuePhotoCreate):
     updated_at: datetime
 
 
-class VenueNoteCreate(BaseModel):
+class VenueNoteCreate(UTCModel):
     model_config = ConfigDict(extra="forbid")
     note_type: str = "internal"
     body: str = Field(min_length=1)

@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from typing import Annotated
+from typing import Annotated, Literal
 
-from fastapi import APIRouter, Depends, HTTPException, Query, Request, Response
+from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, Response
 from pydantic import ConfigDict, Field
 from sqlalchemy import or_
 from sqlalchemy.orm import Session
@@ -20,6 +20,7 @@ from .hypermedia import (
     pagination_links,
 )
 from .opportunity_service import SORT_COLUMNS, filtered_opportunities, ordered_opportunities
+from .openapi_contract import api_docs_origin
 from .schemas import OpportunityCreate, OpportunityRead, OpportunityUpdate
 from .venue_schemas import VenueRead
 from .venue_service import venue_to_dict
@@ -27,8 +28,19 @@ from .venue_service import venue_to_dict
 
 router = APIRouter(prefix="/v1", default_response_class=HALJSONResponse, tags=["API v1"])
 
-PageNumber = Annotated[int, Query(ge=1)]
+PageNumber = Annotated[int, Query(ge=1, le=1_000_000)]
 PageSize = Annotated[int, Query(ge=1, le=100)]
+DatabaseID = Annotated[int, Path(ge=1, le=2_147_483_647)]
+OpportunitySort = Literal[
+    "event_date",
+    "application_deadline",
+    "name",
+    "location",
+    "category",
+    "application_status",
+    "expected_revenue",
+    "expected_attendance",
+]
 
 
 class OpportunityHAL(OpportunityRead):
@@ -147,7 +159,8 @@ def api_root(request: Request) -> APIRoot:
                 ),
                 templated=True,
             ),
-            "documentation": HALLink(href=f"{api_url(request).removesuffix('/v1')}/docs"),
+            "api-description": HALLink(href=api_url(request, "api-description")),
+            "documentation": HALLink(href=api_docs_origin()),
         },
     )
 
@@ -160,9 +173,9 @@ def list_opportunities(
     category: str | None = Query(default=None, max_length=100),
     location: str | None = Query(default=None, max_length=255),
     organizer: str | None = Query(default=None, max_length=255),
-    venue_id: int | None = Query(default=None, ge=1),
+    venue_id: int | None = Query(default=None, ge=1, le=2_147_483_647),
     active: bool | None = Query(default=True),
-    sort: str = Query(default="event_date"),
+    sort: OpportunitySort = Query(default="event_date"),
     direction: str = Query(default="asc", pattern="^(asc|desc)$"),
     page: PageNumber = 1,
     page_size: PageSize = 25,
@@ -235,14 +248,14 @@ def get_opportunity_or_404(db: Session, opportunity_id: int) -> models.Opportuni
 
 
 @router.get("/opportunities/{opportunity_id}", response_model=OpportunityHAL, response_model_exclude_none=True, name="api-v1-get-opportunity")
-def get_opportunity(request: Request, opportunity_id: int, db: Session = Depends(get_db)) -> OpportunityHAL:
+def get_opportunity(request: Request, opportunity_id: DatabaseID, db: Session = Depends(get_db)) -> OpportunityHAL:
     return opportunity_resource(request, get_opportunity_or_404(db, opportunity_id))
 
 
 @router.patch("/opportunities/{opportunity_id}", response_model=OpportunityHAL, response_model_exclude_none=True, name="api-v1-update-opportunity")
 def update_opportunity(
     request: Request,
-    opportunity_id: int,
+    opportunity_id: DatabaseID,
     changes: OpportunityUpdate,
     db: Session = Depends(get_db),
 ) -> OpportunityHAL:
@@ -255,7 +268,7 @@ def update_opportunity(
 
 
 @router.delete("/opportunities/{opportunity_id}", status_code=204, name="api-v1-delete-opportunity")
-def delete_opportunity(opportunity_id: int, db: Session = Depends(get_db)) -> Response:
+def delete_opportunity(opportunity_id: DatabaseID, db: Session = Depends(get_db)) -> Response:
     record = get_opportunity_or_404(db, opportunity_id)
     db.delete(record)
     db.commit()
@@ -288,7 +301,7 @@ def list_organizers(
 
 
 @router.get("/organizers/{organizer_id}", response_model=OrganizerHAL, response_model_exclude_none=True, name="api-v1-get-organizer")
-def get_organizer(request: Request, organizer_id: int, db: Session = Depends(get_db)) -> OrganizerHAL:
+def get_organizer(request: Request, organizer_id: DatabaseID, db: Session = Depends(get_db)) -> OrganizerHAL:
     organizer = db.query(models.Organizer).filter(models.Organizer.id == organizer_id).first()
     if organizer is None:
         raise HTTPException(status_code=404, detail="Organizer not found")
@@ -366,7 +379,7 @@ def list_venues(
 
 
 @router.get("/venues/{venue_id}", response_model=VenueHAL, name="api-v1-get-venue")
-def get_venue(request: Request, venue_id: int, db: Session = Depends(get_db)) -> VenueHAL:
+def get_venue(request: Request, venue_id: DatabaseID, db: Session = Depends(get_db)) -> VenueHAL:
     venue = db.query(models.Venue).filter(models.Venue.id == venue_id).first()
     if venue is None:
         raise HTTPException(status_code=404, detail="Venue not found")

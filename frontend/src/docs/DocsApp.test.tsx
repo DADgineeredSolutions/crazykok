@@ -12,6 +12,7 @@ describe('decision log application', () => {
 
   it('lists generated ADRs and searches their body and metadata', async () => {
     const user = userEvent.setup()
+    window.history.replaceState({}, '', '/decisions')
     render(<DocsApp />)
 
     expect(screen.getByRole('heading', { name: 'Decision Log' })).toBeInTheDocument()
@@ -19,6 +20,13 @@ describe('decision log application', () => {
     await user.type(screen.getByRole('searchbox', { name: 'Search decisions' }), 'filesystem gatekeeper')
     expect(screen.getByText('1 decision')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /Use A Filesystem-Backed Decision Log/i })).toBeInTheDocument()
+  })
+
+  it('offers decisions and the interactive API from the docs portal', () => {
+    render(<DocsApp />)
+    expect(screen.getByRole('heading', { name: 'Project Docs' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /Browse decisions/ })).toHaveAttribute('href', '/decisions')
+    expect(screen.getByRole('link', { name: /Open API reference/ })).toHaveAttribute('href', '/api-reference')
   })
 
   it('renders a direct ADR route with adjacent navigation', () => {

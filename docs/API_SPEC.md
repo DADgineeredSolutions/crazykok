@@ -16,6 +16,13 @@ available related records. Collections contain `_links`, `page`, and
 (default 25, maximum 100). Page links preserve search, filters, and sorting.
 Unavailable `prev`, `next`, and nullable to-one relations are omitted.
 
+The API root links to an `api-description` resource. That resource is the
+discovery point for the canonical OpenAPI 3.1 JSON and YAML documents, the
+public component-schema catalog, and the interactive reference. The OpenAPI
+document is generated from public FastAPI routes; internal authoring routes are
+excluded. Individual components are also available as standalone JSON Schema
+documents whose references resolve through local `$defs`.
+
 The API root advertises opportunity search as an RFC 6570 URI template with
 `q`, `status`, `category`, `location`, `organizer`, `venue_id`, `active`,
 `sort`, `direction`, `page`, and `page_size` parameters.
@@ -44,6 +51,11 @@ pass, and the user confirms that no local scripts still consume the old shape.
 ### Discovery
 
 - `GET /api/v1`
+- `GET /api/v1/api-description`
+- `GET /api/v1/openapi.json`
+- `GET /api/v1/openapi.yaml`
+- `GET /api/v1/schemas`
+- `GET /api/v1/schemas/{schema_name}`
 
 ### Opportunity Series
 

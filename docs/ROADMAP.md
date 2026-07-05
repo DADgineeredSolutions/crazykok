@@ -125,14 +125,23 @@ Implementation plan: `milestones/milestone-10-codex-prompt.md`.
 
 ## Milestone 11 – API Docs
 
+Status: complete
+
 Deliverables:
 
-- Document the apis with an open standard like openAPI / swagger
-- Add a docker container for redoc to render the spec, redoc.host subdomain
-- Update docs. subdomain to be a portal to both decision log and redoc
-- Add contract tests to compare against the spec so that changes to entities will fail on non backward compatible changes.
-- Modify redoc UI to surface actionable buttons for leveraging HATEOAS links.
-- Update agent instructions to verify documentation is up to date after code changes.
+- Publish canonical OpenAPI 3.1 JSON, YAML, and standalone JSON Schemas through
+  discoverable versioned resources.
+- Render it with a pinned, self-hosted Scalar container at the configurable
+  `api-docs` subdomain; keep the OpenAPI renderer replaceable.
+- Make the `docs` subdomain a portal to the decision log and API reference.
+- Enforce generated-spec drift, backward compatibility with oasdiff, and live
+  implementation conformance with Schemathesis as separate fitness gates.
+- Surface safe, actionable GET traversal from live HAL `_links` without forking
+  the documentation renderer.
+- Require coding agents to verify and intentionally review contract changes.
+
+Implementation and operating notes: `docs/api/README.md`. Architectural
+decision: ADR 0030.
 
 ## Milestone 12 – End to End UI Testing
 
@@ -144,7 +153,7 @@ Deliverables:
 
 ## Milestone 13 – Open Telemetry / Observability & Monitoring
 
-The goal of this milestone is to gather log entries from the systen, monitor endpoints on recurring intervals, perhaps schedule synthetic testing, and leverage open telemetry.
+Goal: Gather log entries from the systen for debugging, monitor endpoints on recurring intervals for uptime, perhaps execte synthetic testing, and leverage open telemetry.
 
 Deliverables:
 
@@ -152,3 +161,24 @@ Deliverables:
 - Add docker containers for respective tools
 - Create status.hostname portal for health check statuses across subdomains and services. Link through to monitoring and observability tools
 - Follow open telemetry best practices
+
+## Milestone 13 – Authentication
+
+Goal: Require SSO authentication to use the app and some of the other web accessible interfaces. Ideally all related sub systems would work via SSO.
+
+Deliverables:
+
+- Research open source alternatives to Auth0.
+- Add docker container to host the service assuming it has it;s own web portal
+- Extend ERD to include a simple users entity including auth fields required for each additonal [protected] service the user migh use (i.e. logging, observability)
+- Add a landing login page for SSO via Google. Lets not bother reinventing the wheel
+- Require authentication to access any observability, logging, or monitoring apps linked through status.host.
+
+## Milestone 14 – Expand on Health Check
+
+Goal: To see health status on subsystems, not just the api returning 200OK
+
+Deliverables:
+
+- Decide on subsystems to report on like any event brokers, 3rd party integrations (any auth problems), database connections (thinking beyond a local env), micro services (again, future), redis connections, etc
+- Update the endpoint to break down all the things. Keep a overall status (OK, Degraded, Down?)

@@ -39,6 +39,8 @@ def test_list_events_and_create_event():
     assert created['name'] == 'Winter Market'
     assert created['location'] == 'Assen'
     assert created['application_status'] == 'watchlist'
+    assert created['created_at'].endswith('Z')
+    assert created['updated_at'].endswith('Z')
 
     update_response = client.patch(
         f"/events/{created['id']}",

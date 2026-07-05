@@ -1,5 +1,36 @@
 # Project Journal
 
+## Milestone 11 — API Contract And Interactive Docs
+
+### Date
+
+2026-07-05
+
+### Summary
+
+Published one generated OpenAPI 3.1 authority for interactive documentation,
+public JSON Schemas, compatibility review, and live API fitness testing.
+
+### Key Changes
+
+- Added HAL discovery for canonical JSON/YAML OpenAPI documents and standalone
+  component schemas, while excluding internal ADR-authoring routes.
+- Added a separate, pinned Scalar container at `api-docs.crazykok.local` with
+  an upgrade-safe extension for following live HAL GET links.
+- Turned `docs.crazykok.local` into a portal for decisions and API reference.
+- Added a generated compatibility baseline under `docs/api/openapi`, oasdiff
+  workflow, Schemathesis safe fitness profile, and contract coverage tests.
+- Corrected public timestamps to unambiguous RFC 3339 UTC values and aligned
+  optional query parameters with their actual wire representation.
+- Recorded ADR 0030 so Scalar remains a replaceable renderer, not an API
+  architecture dependency.
+
+### Why This Matters
+
+The reference, downloadable schemas, compatibility checks, and generated live
+tests now derive from the API that actually runs. A route or entity change can
+no longer drift quietly into undocumented or client-breaking behavior.
+
 ## Milestone 01 — Foundation Documentation Update
 
 ### Date

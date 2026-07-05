@@ -1,0 +1,14 @@
+FROM node:22-alpine AS assets
+
+WORKDIR /build
+COPY docs/api/package*.json ./
+RUN npm ci
+
+FROM nginx:1.27-alpine
+
+COPY docker/api-docs.nginx.conf /etc/nginx/templates/default.conf.template
+COPY docs/api/index.html docs/api/api-docs.js docs/api/api-docs.css /usr/share/nginx/html/
+COPY frontend/public/crazykok-logo.png /usr/share/nginx/html/crazykok-logo.png
+COPY --from=assets /build/node_modules/@scalar/api-reference/dist/browser /usr/share/nginx/html/assets
+
+EXPOSE 8080

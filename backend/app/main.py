@@ -1,10 +1,11 @@
 import os
+from urllib.parse import quote
 
 from fastapi import Depends, FastAPI, HTTPException, Query, Request
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from sqlalchemy.orm import Session
 
 from . import models
@@ -13,13 +14,21 @@ from .api_v1 import router as api_v1_router
 from .database import get_db
 from .hypermedia import ProblemJSONResponse, api_url
 from .opportunity_service import filtered_opportunities, ordered_opportunities
+from .openapi_contract import api_docs_origin, router as openapi_contract_router
 from .schemas import EventCreate, EventRead, EventUpdate, OrganizerRead
 from .venue_routes import import_router as venue_import_router
 from .venue_routes import router as venue_router
 
-app = FastAPI(title="Crazy Kok", version="0.1.0")
+app = FastAPI(
+    title="Crazy Kok API",
+    version="1.0.0",
+    docs_url=None,
+    redoc_url=None,
+    openapi_url=None,
+)
 app.include_router(adr_router)
 app.include_router(api_v1_router)
+app.include_router(openapi_contract_router)
 app.include_router(venue_router)
 app.include_router(venue_import_router)
 
@@ -27,7 +36,7 @@ app.include_router(venue_import_router)
 def cors_allowed_origins() -> list[str]:
     configured_origins = os.getenv(
         "CORS_ALLOWED_ORIGINS",
-        "https://crazykok.local,https://app.crazykok.local",
+        "https://crazykok.local,https://app.crazykok.local,https://api-docs.crazykok.local",
     )
     return [origin.strip() for origin in configured_origins.split(",") if origin.strip()]
 
@@ -46,7 +55,7 @@ def is_v1_path(path: str) -> bool:
 
 def public_request_url(request: Request) -> str:
     path = request.url.path.removeprefix("/v1").strip("/")
-    return api_url(request, path, list(request.query_params.multi_items()))
+    return api_url(request, quote(path, safe="/"), list(request.query_params.multi_items()))
 
 
 @app.middleware("http")
@@ -103,6 +112,17 @@ async def validation_problem(request: Request, exc: RequestValidationError):
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
+
+
+@app.get("/openapi.json", include_in_schema=False)
+def legacy_openapi_redirect():
+    return RedirectResponse("/v1/openapi.json", status_code=308)
+
+
+@app.get("/docs", include_in_schema=False)
+@app.get("/redoc", include_in_schema=False)
+def api_documentation_redirect():
+    return RedirectResponse(api_docs_origin(), status_code=308)
 
 
 @app.get("/events", response_model=list[EventRead], deprecated=True)

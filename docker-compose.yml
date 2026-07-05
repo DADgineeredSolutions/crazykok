@@ -6,10 +6,11 @@ services:
     environment:
       APP_ENV: ${APP_ENV:-development}
       DATABASE_URL: ${DATABASE_URL:-sqlite:////data/app.db}
-      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-https://crazykok.local,https://app.crazykok.local}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-https://crazykok.local,https://app.crazykok.local,https://api-docs.crazykok.local}
       ADR_AUTHORING_ENABLED: ${ADR_AUTHORING_ENABLED:-true}
       ADR_DIRECTORY: ${ADR_DIRECTORY:-/app/docs/adr}
       DOCS_ORIGIN: ${DOCS_ORIGIN:-https://docs.crazykok.local}
+      API_DOCS_ORIGIN: ${API_DOCS_ORIGIN:-https://api-docs.crazykok.local}
       TRUST_PROXY_HEADERS: ${TRUST_PROXY_HEADERS:-true}
       PUBLIC_API_BASE_URL: ${PUBLIC_API_BASE_URL:-}
       ATTACHMENT_ROOT: ${ATTACHMENT_ROOT:-/data/attachments}
@@ -25,6 +26,21 @@ services:
       timeout: 10s
       retries: 3
 
+  api-docs:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.api-docs
+    environment:
+      API_DOMAIN: ${API_DOMAIN:-api.crazykok.local}
+      DOCS_DOMAIN: ${DOCS_DOMAIN:-docs.crazykok.local}
+    depends_on:
+      - api
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://127.0.0.1:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
   web:
     build:
       context: .
@@ -34,6 +50,7 @@ services:
       APP_DOMAIN_ALIAS: ${APP_DOMAIN_ALIAS:-app.crazykok.local}
       API_DOMAIN: ${API_DOMAIN:-api.crazykok.local}
       DOCS_DOMAIN: ${DOCS_DOMAIN:-docs.crazykok.local}
+      API_DOCS_DOMAIN: ${API_DOCS_DOMAIN:-api-docs.crazykok.local}
     ports:
       - "${WEB_PORT:-80}:80"
       - "${HTTPS_PORT:-443}:443"
@@ -41,8 +58,9 @@ services:
       - ./docker/certs:/etc/nginx/certs:ro
     depends_on:
       - api
+      - api-docs
     healthcheck:
-      test: ["CMD-SHELL", "wget --spider -q --no-check-certificate --header=\"Host: $${APP_DOMAIN}\" https://127.0.0.1/ && wget --spider -q --no-check-certificate --header=\"Host: $${DOCS_DOMAIN}\" https://127.0.0.1/"]
+      test: ["CMD-SHELL", "wget --spider -q --no-check-certificate --header=\"Host: $${APP_DOMAIN}\" https://127.0.0.1/ && wget --spider -q --no-check-certificate --header=\"Host: $${DOCS_DOMAIN}\" https://127.0.0.1/ && wget --spider -q --no-check-certificate --header=\"Host: $${API_DOCS_DOMAIN}\" https://127.0.0.1/"]
       interval: 30s
       timeout: 10s
       retries: 3

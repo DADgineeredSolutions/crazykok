@@ -38,7 +38,7 @@ function Overview() {
   const tags = [...new Set(records.flatMap((record) => record.tags))].sort()
 
   useEffect(() => {
-    window.history.replaceState({}, '', `/${stateToUrl(state)}`)
+    window.history.replaceState({}, '', `/decisions${stateToUrl(state)}`)
   }, [state])
 
   const update = (field: keyof SearchState, value: string) => setState((current) => ({ ...current, [field]: value }))
@@ -73,16 +73,42 @@ function Overview() {
   )
 }
 
+function Portal() {
+  return (
+    <>
+      <section className="docs-hero portal-hero">
+        <p className="docs-kicker">One doorway, two kinds of truth</p>
+        <h1>Project Docs</h1>
+        <p>Read the decisions behind Crazy Kok or work directly with its live, machine-checked API contract.</p>
+      </section>
+      <section className="portal-grid" aria-label="Documentation areas">
+        <article>
+          <span className="portal-number">01</span>
+          <h2>Decision Log</h2>
+          <p>Search the architecture record: context, trade-offs, consequences, and the choices we intend to revisit.</p>
+          <Link href="/decisions">Browse decisions →</Link>
+        </article>
+        <article>
+          <span className="portal-number">02</span>
+          <h2>API Reference</h2>
+          <p>Explore the canonical OpenAPI description, run requests, inspect schemas, and follow live HAL links.</p>
+          <a href="/api-reference">Open API reference →</a>
+        </article>
+      </section>
+    </>
+  )
+}
+
 function Detail({ slug }: { slug: string }) {
   const recordIndex = records.findIndex((record) => record.slug === slug)
   const record = records[recordIndex]
   const returnQuery = window.location.search
-  if (!record) return <section className="not-found"><p className="docs-kicker">404</p><h1>Decision not found</h1><p>This ADR may have moved or never made it past the whiteboard.</p><Link href="/">Return to the decision log</Link></section>
+  if (!record) return <section className="not-found"><p className="docs-kicker">404</p><h1>Decision not found</h1><p>This ADR may have moved or never made it past the whiteboard.</p><Link href="/decisions">Return to the decision log</Link></section>
   const previous = records[recordIndex - 1]
   const next = records[recordIndex + 1]
   return (
     <>
-      <Link className="back-link" href={`/${returnQuery}`}>← All decisions</Link>
+      <Link className="back-link" href={`/decisions${returnQuery}`}>← All decisions</Link>
       <article className="adr-document">
         <header><p className="docs-kicker">ADR {record.id}</p><h1>{record.title}</h1><Metadata record={record} /></header>
         <div className="markdown"><ReactMarkdown remarkPlugins={[remarkGfm]} skipHtml>{record.markdown.replace(/^# ADR .+\n+/, '')}</ReactMarkdown></div>
@@ -103,5 +129,6 @@ export default function DocsApp() {
     return () => window.removeEventListener('popstate', sync)
   }, [])
   const match = path.match(/^\/adr\/([^/]+)\/?$/)
-  return <div className="docs-site"><header className="docs-header"><Link href="/" className="docs-brand"><img src="/crazykok-logo.png" alt="" /><span>Crazy Kok <strong>Docs</strong></span></Link><span className="read-only">Read-only · sourced from Git</span></header><main>{match ? <Detail slug={decodeURIComponent(match[1])} /> : path === '/' ? <Overview /> : <Detail slug="" />}</main><footer>Crazy Kok decision log · Files are the source of truth</footer></div>
+  const page = match ? <Detail slug={decodeURIComponent(match[1])} /> : path === '/' ? <Portal /> : path === '/decisions' ? <Overview /> : <Detail slug="" />
+  return <div className="docs-site"><header className="docs-header"><Link href="/" className="docs-brand"><img src="/crazykok-logo.png" alt="" /><span>Crazy Kok <strong>Docs</strong></span></Link><nav aria-label="Documentation"><Link href="/decisions">Decisions</Link><a href="/api-reference">API</a></nav><span className="read-only">Read-only · contract-driven</span></header><main>{page}</main><footer>Crazy Kok documentation · Repository and API contracts are the sources of truth</footer></div>
 }

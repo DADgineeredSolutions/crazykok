@@ -15,7 +15,11 @@ from .adr_service import (
 )
 
 
-router = APIRouter(prefix="/internal/adrs", tags=["internal-adr-authoring"])
+router = APIRouter(
+    prefix="/internal/adrs",
+    tags=["internal-adr-authoring"],
+    include_in_schema=False,
+)
 
 
 def authoring_enabled() -> bool:

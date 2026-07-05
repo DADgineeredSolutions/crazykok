@@ -33,7 +33,8 @@ def test_api_root_is_discoverable_and_proxy_aware():
     assert response.headers["content-type"].startswith(HAL)
     assert "Accept" in response.headers["vary"]
     assert response.json()["_links"]["self"]["href"] == "https://crazykok.local/api/v1"
-    assert response.json()["_links"]["documentation"]["href"] == "https://crazykok.local/api/docs"
+    assert response.json()["_links"]["documentation"]["href"] == "https://api-docs.crazykok.local"
+    assert response.json()["_links"]["api-description"]["href"] == "https://crazykok.local/api/v1/api-description"
     assert response.json()["_links"]["opportunity-search"]["templated"] is True
     assert "/internal" not in str(response.json())
 
