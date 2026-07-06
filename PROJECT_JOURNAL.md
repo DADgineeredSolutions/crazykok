@@ -1,5 +1,35 @@
 # Project Journal
 
+## Milestone 12 — End-to-End UI Testing
+
+### Date
+
+2026-07-06
+
+### Summary
+
+Added Playwright as the final browser-level test layer, with isolated mutating
+journeys before deployment and a read-only smoke journey after deployment.
+
+### Key Changes
+
+- Added Chromium coverage for primary navigation, the opportunity lifecycle,
+  the venue lifecycle, and reviewed venue CSV import.
+- Made local journeys use a disposable API container, database, attachment
+  directory, ports, and HAL base URL so development data is never reused.
+- Added a dedicated CI job with failure screenshots, video, traces, and an HTML
+  report artifact.
+- Added a reusable and manually runnable post-deployment workflow that accepts
+  a deployment URL and runs only tests tagged `@smoke`.
+- Documented the browser test commands and the post-deployment handoff in the
+  testing and deployment guides.
+
+### Why This Matters
+
+Component and API tests can pass while navigation, forms, proxying, or browser
+behavior is broken. The core workflows now run through the same UI/API boundary
+as a person, while production verification remains deliberately read-only.
+
 ## Milestone 05 — Map And Calendar Planning Views
 
 ### Date

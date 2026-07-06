@@ -113,3 +113,15 @@ API. It vendors the pinned Scalar browser assets at build time and fetches the
 canonical OpenAPI document through its own narrow Nginx proxy. Browser "try it"
 requests go directly to the advertised API server, so the API-docs origin must
 remain in the explicit CORS allowlist.
+
+## Post-deployment verification
+
+After the application URL is serving the new release, invoke
+`.github/workflows/post-deploy-e2e.yml` with that URL. The workflow runs the
+read-only Playwright `@smoke` journey as the final deployment layer and uploads
+its browser report when it fails. Deployment workflows can call it as a
+reusable workflow; operators can also run it manually from GitHub Actions.
+
+Do not point the full mutating E2E suite at production. Create/edit/archive and
+CSV-import journeys run before deployment against Playwright's disposable API
+and SQLite database.

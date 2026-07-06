@@ -62,14 +62,14 @@ cloud service to run. See [Architecture](docs/ARCHITECTURE.md) and
 
 | Layer | Technology |
 | --- | --- |
-| Frontend | React 18, TypeScript, Vite, Leaflet, FullCalendar, Vitest, Testing Library |
+| Frontend | React 18, TypeScript, Vite, Leaflet, FullCalendar, Vitest, Testing Library, Playwright |
 | Backend | Python 3.13, FastAPI, Pydantic, SQLAlchemy, Alembic, Uvicorn |
 | Data | SQLite by default; filesystem-backed venue attachments |
 | API | Versioned HAL/JSON, RFC 9457 problem details, generated OpenAPI 3.1 |
 | API quality | Pytest, snapshot drift checks, oasdiff, Schemathesis |
 | Edge and packaging | Docker Compose, multi-stage images, Nginx, local HTTPS |
 | API reference | Self-hosted Scalar |
-| Continuous integration | GitHub Actions |
+| Continuous integration | GitHub Actions, including isolated browser journeys and reusable post-deployment smoke tests |
 
 ## Modules and decisions
 
@@ -180,6 +180,19 @@ npm ci
 npm test
 npm run build
 ```
+
+End-to-end browser tests use an isolated API and database. Install Chromium
+once, then run the full local journey suite:
+
+```sh
+cd frontend
+npx playwright install chromium
+npm run test:e2e
+```
+
+The reusable `Post-deployment E2E` GitHub Actions workflow runs the read-only
+`@smoke` journey against a supplied deployment URL. See
+[Testing](docs/TESTING.md) for the test layers and deployment handoff.
 
 HTTP route or public-model changes must also follow the
 [API contract workflow](docs/api/README.md), including contract regeneration,

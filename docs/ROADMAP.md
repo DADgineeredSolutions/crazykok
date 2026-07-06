@@ -150,11 +150,18 @@ decision: ADR 0030.
 
 ## Milestone 12 – End to End UI Testing
 
+Status: complete
+
 Deliverables:
 
 - Incorporate playwright into the project
 - Add the core UI use cases to execute through a headless browser
 - Update test plan to run these after deployment as the last layer of testing
+
+Implementation includes isolated Chromium journeys for opportunity lifecycle,
+venue lifecycle, reviewed venue import, and primary navigation. CI runs the
+full mutating suite before deployment; a reusable/manual GitHub Actions
+workflow runs only read-only smoke coverage against a deployed URL.
 
 ## Milestone 13 – Open Telemetry / Observability & Monitoring
 
