@@ -15,6 +15,7 @@ no `.env` file stays in development and only serves `.local` names.
 | `API_DOMAIN` | `api.crazykok.local` | Direct API virtual host. |
 | `DOCS_DOMAIN` | `docs.crazykok.local` | Read-only static decision-log virtual host. |
 | `API_DOCS_DOMAIN` | `api-docs.crazykok.local` | Interactive API-reference virtual host. |
+| `DB_DOMAIN` | `db.crazykok.local` | Private database console virtual host. |
 | `API_DOCS_ORIGIN` | `https://api-docs.crazykok.local` | Canonical link advertised by API discovery and legacy docs redirects. |
 | `CORS_ALLOWED_ORIGINS` | app and API-docs origins | Comma-separated origins allowed to call the API. Do not use `*` in production. |
 | `ADR_AUTHORING_ENABLED` | `true` in the local Compose environment | Enables the loopback-only ADR filesystem gatekeeper. Must be `false` in production. |
@@ -44,9 +45,10 @@ docker compose up --build
 Open `https://crazykok.local` (or `https://app.crazykok.local`). The decision
 log and documentation portal are at `https://docs.crazykok.local`; the
 interactive API reference is at `https://api-docs.crazykok.local`. API health is
-available at `https://api.crazykok.local/health`. HTTP requests for any configured hostname
-receive a permanent 308 redirect to HTTPS. Requests sent to the gateway with
-any other hostname receive HTTP 421.
+available at `https://api.crazykok.local/health`. The local SQLite browser
+is at `https://db.crazykok.local`. HTTP requests for any configured hostname
+receive a permanent 308 redirect to HTTPS. Requests sent to the gateway with any
+other hostname receive HTTP 421.
 
 The certificate generator uses `mkcert` when it is installed, which provides a
 locally trusted certificate after `mkcert -install`. Otherwise it uses OpenSSL
@@ -57,8 +59,8 @@ Because `.local` is also used by multicast DNS on macOS, add explicit hosts-file
 entries for consistent local resolution:
 
 ```text
-127.0.0.1 crazykok.local app.crazykok.local api.crazykok.local docs.crazykok.local api-docs.crazykok.local
-::1       crazykok.local app.crazykok.local api.crazykok.local docs.crazykok.local api-docs.crazykok.local
+127.0.0.1 crazykok.local app.crazykok.local api.crazykok.local docs.crazykok.local api-docs.crazykok.local db.crazykok.local
+::1       crazykok.local app.crazykok.local api.crazykok.local docs.crazykok.local api-docs.crazykok.local db.crazykok.local
 ```
 
 On macOS, flush resolver caches after editing `/etc/hosts`:
@@ -80,6 +82,7 @@ APP_DOMAIN_ALIAS=app.crazykok.com
 API_DOMAIN=api.crazykok.com
 DOCS_DOMAIN=docs.crazykok.com
 API_DOCS_DOMAIN=api-docs.crazykok.com
+DB_DOMAIN=db.crazykok.com
 API_DOCS_ORIGIN=https://api-docs.crazykok.com
 TRUST_PROXY_HEADERS=true
 PUBLIC_API_BASE_URL=https://api.crazykok.com/v1
@@ -89,13 +92,21 @@ ADR_AUTHORING_ENABLED=false
 DOCS_ORIGIN=https://docs.crazykok.com
 ```
 
-Create DNS records for the app, API, docs, and API-docs subdomains pointing to the
-gateway/load balancer.
+Create DNS records for the app, API, docs, API-docs, and private DB-console
+subdomains pointing to the gateway/load balancer.
 Mount the deployment certificate and key at
 `/etc/nginx/certs/localhost.crt` and `/etc/nginx/certs/localhost.key`, or adapt
 the gateway configuration to the cloud provider's managed TLS termination.
 Expose only ports 80 and 443; the Compose API debug port remains bound to
 `127.0.0.1`.
+
+The database console is a local operational editing surface, not a public
+product surface. The default sqlite-web service can write to the SQLite volume
+and does not publish a host port; access still flows through the local gateway.
+In production, do not expose sqlite-web directly. If the application later moves
+from SQLite to a cloud database via `DATABASE_URL`, keep `DB_DOMAIN` as the
+stable admin entry point and redirect or proxy it to the provider-specific
+console or connection path for that database.
 
 The docs site is generated from `docs/adr/` during the web image build and has
 no database or runtime API dependency. Rebuild and deploy the web image after

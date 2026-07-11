@@ -25,6 +25,7 @@ on the active deployment and DNS configuration.
 | API | [api.crazykok.com](https://api.crazykok.com/v1) | [api.crazykok.local](https://api.crazykok.local/v1) | Versioned HAL/JSON API and OpenAPI contract. |
 | Decision log | [docs.crazykok.com](https://docs.crazykok.com) | [docs.crazykok.local](https://docs.crazykok.local) | Read-only, searchable architecture decision records. |
 | API reference | [api-docs.crazykok.com](https://api-docs.crazykok.com) | [api-docs.crazykok.local](https://api-docs.crazykok.local) | Interactive, self-hosted API documentation. |
+| Database console | [db.crazykok.com](https://db.crazykok.com) | [db.crazykok.local](https://db.crazykok.local) | Private database inspection and editing surface. |
 
 ## How the system fits together
 
@@ -33,16 +34,16 @@ Browser / API client
         |
         v
 Nginx HTTPS gateway (:80/:443)
-   |          |           |
-   v          v           v
-React app   FastAPI    API reference
-               |
-               v
-       SQLite + attachments
-       (api-data volume)
+   |          |           |             |
+   v          v           v             v
+React app   FastAPI    API reference   sqlite-web
+               |                         |
+               v                         v
+       SQLite + attachments       SQLite data editor
+       (api-data volume)          (api-data volume)
 ```
 
-Docker Compose builds three services:
+Docker Compose builds four services:
 
 - `web` builds the React/TypeScript application and serves it through Nginx.
   The same gateway terminates local TLS, routes each hostname, and proxies
@@ -52,6 +53,9 @@ Docker Compose builds three services:
 - `api-docs` serves a pinned, self-hosted Scalar API Reference. It reads the
   public OpenAPI contract from the API rather than maintaining a second API
   description.
+- `db` runs sqlite-web against the same persistent SQLite volume for local data
+  inspection and editing. It is exposed only through the Nginx gateway at the
+  configured database console hostname.
 
 The architecture is intentionally local-first and portable. Production can
 replace SQLite through `DATABASE_URL`, but the application does not require a
@@ -110,8 +114,8 @@ docker compose up --build
 Add the virtual hosts to `/etc/hosts` so all local URLs resolve consistently:
 
 ```text
-127.0.0.1 crazykok.local app.crazykok.local api.crazykok.local docs.crazykok.local api-docs.crazykok.local
-::1       crazykok.local app.crazykok.local api.crazykok.local docs.crazykok.local api-docs.crazykok.local
+127.0.0.1 crazykok.local app.crazykok.local api.crazykok.local docs.crazykok.local api-docs.crazykok.local db.crazykok.local
+::1       crazykok.local app.crazykok.local api.crazykok.local docs.crazykok.local api-docs.crazykok.local db.crazykok.local
 ```
 
 On macOS, flush the resolver cache after changing the hosts file:
@@ -125,6 +129,8 @@ Then open [https://crazykok.local](https://crazykok.local). If the certificate
 was generated with OpenSSL instead of `mkcert`, the browser will show a local
 certificate warning. API health is available at
 [https://api.crazykok.local/health](https://api.crazykok.local/health).
+The local database console is available at
+[https://db.crazykok.local](https://db.crazykok.local).
 
 Stop the containers with `docker compose down`. Add `--volumes` only when you
 intentionally want to delete the local database and attachment store.
@@ -143,6 +149,7 @@ change.
 | `API_DOMAIN` | `api.crazykok.local` | Public API hostname and API-docs upstream. |
 | `DOCS_DOMAIN` | `docs.crazykok.local` | Decision-log hostname. |
 | `API_DOCS_DOMAIN` | `api-docs.crazykok.local` | Interactive API-reference hostname. |
+| `DB_DOMAIN` | `db.crazykok.local` | Private sqlite-web database console hostname. |
 | `DOCS_ORIGIN` | `https://docs.crazykok.local` | Canonical decision-log URL returned after local ADR authoring. |
 | `API_DOCS_ORIGIN` | `https://api-docs.crazykok.local` | Canonical API-reference link advertised by the API. |
 | `CORS_ALLOWED_ORIGINS` | Local app and API-docs origins | Comma-separated browser origins allowed to call the API. |
