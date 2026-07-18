@@ -13,7 +13,8 @@ keywords:
   - single user
   - access control
 supersedes: []
-superseded_by: []
+superseded_by:
+  - '0031'
 ---
 
 # ADR 0016: Do Not Add Authentication Initially

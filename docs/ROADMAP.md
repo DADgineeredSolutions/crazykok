@@ -181,17 +181,27 @@ Deliverables:
 - Create status.hostname portal for health check statuses across subdomains and services. Link through to monitoring and observability tools
 - Follow open telemetry best practices
 
-## Milestone 13 – Authentication
+## Milestone 13A – Authentication & Authorization
+
+Status: in progress
 
 Goal: Require SSO authentication to use the app and some of the other web accessible interfaces. Ideally all related sub systems would work via SSO.
 
 Deliverables:
 
-- Research open source alternatives to Auth0.
-- Add docker container to host the service assuming it has it;s own web portal
-- Extend ERD to include a simple users entity including auth fields required for each additonal [protected] service the user migh use (i.e. logging, observability)
-- Add a landing login page for SSO via Google. Lets not bother reinventing the wheel
-- Require authentication to access any observability, logging, or monitoring apps linked through status.host.
+- Use authentik as the first self-hosted Auth0 alternative, with Keycloak as the
+  heavyweight fallback.
+- Add an `auth.crazykok` service and Docker topology for authentik, Postgres,
+  and Redis.
+- Add Nginx forward-auth hooks for the app, API, and database console.
+- Add API identity extraction, `/v1/me`, write-role enforcement scaffolding, and
+  an internal service bearer token path.
+- Configure Google SSO and authentik proxy providers/outposts before enabling
+  gateway enforcement in production.
+- Require authentication to access operational and database-management surfaces
+  once the auth provider is configured.
+
+Implementation decision: ADR 0031.
 
 ## Milestone 14 – Expand on Health Check
 

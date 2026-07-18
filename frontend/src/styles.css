@@ -56,6 +56,21 @@ body {
   font-weight: 700;
 }
 
+.logout-link {
+  border: 1px solid #b9c7cf;
+  border-radius: 6px;
+  color: #354b58;
+  padding: 7px 10px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.logout-link:hover,
+.logout-link:focus-visible {
+  border-color: #17566d;
+  color: #17566d;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -1078,6 +1093,10 @@ tbody tr:hover {
 
   .nav-links {
     overflow-x: auto;
+  }
+
+  .logout-link {
+    align-self: flex-start;
   }
 
   .field-grid {

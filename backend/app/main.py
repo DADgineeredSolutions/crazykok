@@ -11,6 +11,7 @@ from sqlalchemy.orm import Session
 from . import models
 from .adr_routes import router as adr_router
 from .api_v1 import router as api_v1_router
+from .auth import auth_api_required, require_current_user, require_write_access
 from .database import get_db
 from .hypermedia import ProblemJSONResponse, api_url
 from .opportunity_service import apply_opportunity_values, filtered_opportunities, ordered_opportunities
@@ -68,6 +69,20 @@ async def api_contract_headers(request: Request, call_next):
         response.headers["Deprecation"] = "true"
         response.headers["Link"] = '</v1/opportunities>; rel="successor-version"'
     return response
+
+
+@app.middleware("http")
+async def api_auth_gate(request: Request, call_next):
+    protected_prefixes = ("/v1",)
+    if auth_api_required() and request.url.path.startswith(protected_prefixes):
+        try:
+            request.state.current_user = require_current_user(request)
+            require_write_access(request)
+        except HTTPException as exc:
+            return JSONResponse(status_code=exc.status_code, content={"detail": exc.detail}, headers=exc.headers)
+    elif request.url.path.startswith(protected_prefixes):
+        request.state.current_user = require_current_user(request)
+    return await call_next(request)
 
 
 @app.exception_handler(HTTPException)

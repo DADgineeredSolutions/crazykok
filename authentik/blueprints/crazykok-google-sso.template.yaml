@@ -1,0 +1,33 @@
+version: 1
+metadata:
+  name: Crazy Kok Google SSO source template
+
+# Copy this file outside the repository, replace the environment-backed values,
+# validate it in authentik, then import it as a blueprint instance. It defines
+# only federation; application proxy providers remain deliberately separate so
+# each protected host can receive its own authorization policy.
+entries:
+  # Federated users need the internal user type to enter authentik's
+  # user-facing Application Dashboard. This does not grant admin privileges.
+  - model: authentik_stages_user_write.userwritestage
+    identifiers:
+      name: default-source-enrollment-write
+    attrs:
+      user_type: internal
+
+  - model: authentik_sources_oauth.oauthsource
+    id: google-source
+    identifiers:
+      slug: google
+    attrs:
+      name: Google
+      slug: google
+      enabled: true
+      provider_type: google
+      consumer_key: !Env [AUTHENTIK_GOOGLE_CLIENT_ID]
+      consumer_secret: !Env [AUTHENTIK_GOOGLE_CLIENT_SECRET]
+      authentication_flow: !Find [authentik_flows.flow, [slug, default-source-authentication]]
+      enrollment_flow: !Find [authentik_flows.flow, [slug, default-source-enrollment]]
+      user_matching_mode: email_link
+      group_matching_mode: name_deny
+      icon: https://authentik.io/img/brands/google.svg

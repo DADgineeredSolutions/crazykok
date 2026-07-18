@@ -10,6 +10,7 @@ from sqlalchemy import or_
 from sqlalchemy.orm import Session
 
 from . import models
+from .auth import CurrentUser, require_current_user
 from .database import get_db
 from .hypermedia import (
     HALCollection,
@@ -194,6 +195,16 @@ class APIRoot(HALResource):
     version: str
 
 
+class CurrentUserHAL(HALResource):
+    subject: str
+    username: str
+    email: str | None = None
+    name: str | None = None
+    groups: list[str]
+    roles: list[str]
+    auth_type: str
+
+
 def opportunity_links(request: Request, opportunity: models.Opportunity) -> dict[str, HALLink]:
     links = {
         "self": HALLink(href=api_url(request, f"opportunities/{opportunity.id}")),
@@ -291,6 +302,7 @@ def api_root(request: Request) -> APIRoot:
             ),
             "organizers": HALLink(href=api_url(request, "organizers")),
             "venues": HALLink(href=api_url(request, "venues")),
+            "me": HALLink(href=api_url(request, "me")),
             "venue-search": HALLink(
                 href=(
                     f"{api_url(request, 'venues')}"
@@ -301,6 +313,21 @@ def api_root(request: Request) -> APIRoot:
             "api-description": HALLink(href=api_url(request, "api-description")),
             "documentation": HALLink(href=api_docs_origin()),
         },
+    )
+
+
+@router.get("/me", response_model=CurrentUserHAL, response_model_exclude_none=True, name="api-v1-current-user")
+def current_user(request: Request) -> CurrentUserHAL:
+    user: CurrentUser = require_current_user(request)
+    return CurrentUserHAL(
+        subject=user.subject,
+        username=user.username,
+        email=user.email,
+        name=user.name,
+        groups=list(user.groups),
+        roles=list(user.roles),
+        auth_type=user.auth_type,
+        links={"self": HALLink(href=api_url(request, "me"))},
     )
 
 

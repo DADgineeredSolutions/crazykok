@@ -1,5 +1,6 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react'
 import logoUrl from './assets/crazykok-logo.png'
+import AuthControls from './AuthControls'
 import ImportWorkspace from './ImportWorkspace'
 import VenueWorkspace from './VenueWorkspace'
 import PlanningWorkspace from './PlanningWorkspace'
@@ -577,6 +578,7 @@ function App() {
           <button className={view === 'venues' ? 'active' : ''} onClick={() => setView('venues')}>Venues</button>
           <button className={view === 'import' ? 'active' : ''} onClick={() => setView('import')}>Import venues</button>
         </div>
+        <AuthControls />
       </nav>
       {view === 'opportunities' ? <OpportunityWorkspace /> : view === 'planning' ? <PlanningWorkspace /> : view === 'engagements' ? <EngagementsWorkspace /> : view === 'venues' ? <VenueWorkspace /> : <ImportWorkspace />}
     </div>

@@ -1,0 +1,27 @@
+version: 1
+metadata:
+  name: Crazy Kok local OIDC stub source template
+entries:
+  # Match production federation: users may enter authentik's application
+  # dashboard, but remain non-admin users.
+  - model: authentik_stages_user_write.userwritestage
+    identifiers:
+      name: default-source-enrollment-write
+    attrs:
+      user_type: internal
+
+  - model: authentik_sources_oauth.oauthsource
+    identifiers:
+      slug: local-oidc
+    attrs:
+      name: Local OIDC Stub
+      slug: local-oidc
+      enabled: true
+      provider_type: openidconnect
+      consumer_key: authentik-local
+      consumer_secret: authentik-local-client-secret
+      oidc_well_known_url: https://idp.crazykok.local/realms/crazykok-local/.well-known/openid-configuration
+      authentication_flow: !Find [authentik_flows.flow, [slug, default-source-authentication]]
+      enrollment_flow: !Find [authentik_flows.flow, [slug, default-source-enrollment]]
+      user_matching_mode: email_link
+      group_matching_mode: name_deny

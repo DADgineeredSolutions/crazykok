@@ -1,0 +1,47 @@
+version: 1
+metadata:
+  name: CrazyKok application portal logout
+
+# Authentik's application dashboard normally invalidates only its own session.
+# Redirect its logout action through CrazyKok's public logout route so the
+# application, Authentik, and the configured upstream IdP are handled by the
+# same deployment-specific FULL_LOGOUT_URL chain.
+entries:
+  - model: authentik_flows.flow
+    id: crazykok-full-invalidation
+    identifiers:
+      slug: crazykok-full-invalidation
+    attrs:
+      name: CrazyKok full logout
+      title: Signing out of CrazyKok
+      designation: invalidation
+      authentication: none
+      layout: stacked
+      policy_engine_mode: any
+      denied_action: message_continue
+      compatibility_mode: false
+
+  - model: authentik_stages_redirect.redirectstage
+    id: crazykok-full-logout-redirect
+    identifiers:
+      name: crazykok-full-logout-redirect
+    attrs:
+      mode: static
+      target_static: !Env [AUTHENTIK_PORTAL_LOGOUT_URL, https://crazykok.local/logout]
+      keep_context: false
+
+  - model: authentik_flows.flowstagebinding
+    identifiers:
+      target: !KeyOf crazykok-full-invalidation
+      stage: !KeyOf crazykok-full-logout-redirect
+      order: 0
+    attrs:
+      target: !KeyOf crazykok-full-invalidation
+      stage: !KeyOf crazykok-full-logout-redirect
+      order: 0
+
+  - model: authentik_brands.brand
+    identifiers:
+      domain: authentik-default
+    attrs:
+      flow_invalidation: !KeyOf crazykok-full-invalidation
