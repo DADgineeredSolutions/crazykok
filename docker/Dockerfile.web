@@ -10,6 +10,8 @@ RUN npm run build
 
 FROM nginx:1.27-alpine
 COPY docker/nginx.conf /etc/nginx/templates/default.conf.template
+COPY docker/auth-disabled.conf /etc/nginx/auth/auth-disabled.conf
+COPY docker/auth-authentik.conf /etc/nginx/auth/auth-authentik.conf
 COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 80

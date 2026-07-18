@@ -18,6 +18,12 @@ services:
       PUBLIC_API_BASE_URL: ${PUBLIC_API_BASE_URL:-}
       ATTACHMENT_ROOT: ${ATTACHMENT_ROOT:-/data/attachments}
       MAX_ATTACHMENT_BYTES: ${MAX_ATTACHMENT_BYTES:-20971520}
+      AUTH_API_REQUIRED: ${AUTH_API_REQUIRED:-false}
+      AUTH_SERVICE_TOKEN: ${AUTH_SERVICE_TOKEN:-}
+      AUTH_WRITE_ROLES: ${AUTH_WRITE_ROLES:-admin,operator}
+      AUTH_OIDC_JWKS_URL: ${AUTH_OIDC_JWKS_URL:-}
+      AUTH_OIDC_ISSUER: ${AUTH_OIDC_ISSUER:-}
+      AUTH_OIDC_AUDIENCE: ${AUTH_OIDC_AUDIENCE:-}
     ports:
       - "127.0.0.1:${API_PORT:-8000}:8000"
     volumes:
@@ -59,6 +65,117 @@ services:
       timeout: 10s
       retries: 3
 
+  auth-postgres:
+    container_name: crazykok-auth-postgres
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${AUTH_POSTGRES_DB:-authentik}
+      POSTGRES_USER: ${AUTH_POSTGRES_USER:-authentik}
+      POSTGRES_PASSWORD: ${AUTH_POSTGRES_PASSWORD:-change-me-authentik-postgres}
+    volumes:
+      - auth-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  auth-redis:
+    container_name: crazykok-auth-redis
+    image: redis:7-alpine
+    command: ["redis-server", "--save", "60", "1", "--loglevel", "warning"]
+    volumes:
+      - auth-redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  auth-server:
+    container_name: crazykok-auth-server
+    image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server:latest}
+    command: server
+    environment:
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:-change-me-authentik-secret-key}
+      AUTHENTIK_ERROR_REPORTING__ENABLED: ${AUTHENTIK_ERROR_REPORTING_ENABLED:-false}
+      AUTHENTIK_REDIS__HOST: auth-redis
+      AUTHENTIK_POSTGRESQL__HOST: auth-postgres
+      AUTHENTIK_POSTGRESQL__NAME: ${AUTH_POSTGRES_DB:-authentik}
+      AUTHENTIK_POSTGRESQL__USER: ${AUTH_POSTGRES_USER:-authentik}
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${AUTH_POSTGRES_PASSWORD:-change-me-authentik-postgres}
+      AUTHENTIK_EMAIL__HOST: ${AUTHENTIK_EMAIL_HOST:-}
+      AUTHENTIK_EMAIL__PORT: ${AUTHENTIK_EMAIL_PORT:-587}
+      AUTHENTIK_EMAIL__USERNAME: ${AUTHENTIK_EMAIL_USERNAME:-}
+      AUTHENTIK_EMAIL__PASSWORD: ${AUTHENTIK_EMAIL_PASSWORD:-}
+      AUTHENTIK_EMAIL__USE_TLS: ${AUTHENTIK_EMAIL_USE_TLS:-true}
+      AUTHENTIK_EMAIL__FROM: ${AUTHENTIK_EMAIL_FROM:-auth@crazykok.local}
+      AUTHENTIK_BOOTSTRAP_EMAIL: ${AUTHENTIK_BOOTSTRAP_EMAIL:-}
+      AUTHENTIK_BOOTSTRAP_PASSWORD: ${AUTHENTIK_BOOTSTRAP_PASSWORD:-}
+      AUTHENTIK_BOOTSTRAP_TOKEN: ${AUTHENTIK_BOOTSTRAP_TOKEN:-}
+      AUTHENTIK_PORTAL_LOGOUT_URL: ${AUTHENTIK_PORTAL_LOGOUT_URL:-https://crazykok.local/logout}
+      AUTHENTIK_DB_PUBLIC_URL: ${AUTHENTIK_DB_PUBLIC_URL:-https://db.crazykok.local}
+      REQUESTS_CA_BUNDLE: /certs/crazykok-local.crt
+      SSL_CERT_FILE: /certs/crazykok-local.crt
+    volumes:
+      - auth-media:/media
+      - auth-templates:/templates
+      - ./docker/certs/localhost.crt:/certs/crazykok-local.crt:ro
+    depends_on:
+      auth-postgres:
+        condition: service_healthy
+      auth-redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "ak healthcheck"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  auth-worker:
+    image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server:latest}
+    command: worker
+    environment:
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:-change-me-authentik-secret-key}
+      AUTHENTIK_ERROR_REPORTING__ENABLED: ${AUTHENTIK_ERROR_REPORTING_ENABLED:-false}
+      AUTHENTIK_REDIS__HOST: auth-redis
+      AUTHENTIK_POSTGRESQL__HOST: auth-postgres
+      AUTHENTIK_POSTGRESQL__NAME: ${AUTH_POSTGRES_DB:-authentik}
+      AUTHENTIK_POSTGRESQL__USER: ${AUTH_POSTGRES_USER:-authentik}
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${AUTH_POSTGRES_PASSWORD:-change-me-authentik-postgres}
+      AUTHENTIK_BOOTSTRAP_EMAIL: ${AUTHENTIK_BOOTSTRAP_EMAIL:-}
+      AUTHENTIK_BOOTSTRAP_PASSWORD: ${AUTHENTIK_BOOTSTRAP_PASSWORD:-}
+      AUTHENTIK_BOOTSTRAP_TOKEN: ${AUTHENTIK_BOOTSTRAP_TOKEN:-}
+      AUTHENTIK_PORTAL_LOGOUT_URL: ${AUTHENTIK_PORTAL_LOGOUT_URL:-https://crazykok.local/logout}
+      AUTHENTIK_DB_PUBLIC_URL: ${AUTHENTIK_DB_PUBLIC_URL:-https://db.crazykok.local}
+      REQUESTS_CA_BUNDLE: /certs/crazykok-local.crt
+      SSL_CERT_FILE: /certs/crazykok-local.crt
+    volumes:
+      - auth-media:/media
+      - auth-templates:/templates
+      - ./docker/certs/localhost.crt:/certs/crazykok-local.crt:ro
+    depends_on:
+      auth-postgres:
+        condition: service_healthy
+      auth-redis:
+        condition: service_healthy
+
+  idp-stub:
+    container_name: crazykok-idp-stub
+    image: ${IDP_STUB_IMAGE:-quay.io/keycloak/keycloak:26.7.0}
+    command: start-dev --import-realm --hostname=https://${IDP_STUB_DOMAIN:-idp.crazykok.local} --proxy-headers=xforwarded
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${IDP_STUB_ADMIN_USERNAME:-admin}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${IDP_STUB_ADMIN_PASSWORD:-local-idp-admin}
+    volumes:
+      - ./keycloak/realm:/opt/keycloak/data/import:ro
+      - ./keycloak/theme/crazykok:/opt/keycloak/themes/crazykok:ro
+    healthcheck:
+      test: ["CMD", "/opt/keycloak/bin/kc.sh", "show-config"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
   web:
     container_name: crazykok-app
     build:
@@ -67,17 +184,24 @@ services:
     environment:
       APP_DOMAIN: ${APP_DOMAIN:-crazykok.local}
       APP_DOMAIN_ALIAS: ${APP_DOMAIN_ALIAS:-app.crazykok.local}
+      PUBLIC_SITE_DOMAIN: ${PUBLIC_SITE_DOMAIN:-www.crazykok.local}
       API_DOMAIN: ${API_DOMAIN:-api.crazykok.local}
       DOCS_DOMAIN: ${DOCS_DOMAIN:-docs.crazykok.local}
       API_DOCS_DOMAIN: ${API_DOCS_DOMAIN:-api-docs.crazykok.local}
       DB_DOMAIN: ${DB_DOMAIN:-db.crazykok.local}
+      AUTH_DOMAIN: ${AUTH_DOMAIN:-auth.crazykok.local}
+      IDP_STUB_DOMAIN: ${IDP_STUB_DOMAIN:-idp.crazykok.local}
+      AUTH_GATEWAY_MODE: ${AUTH_GATEWAY_MODE:-auth-disabled}
+      FULL_LOGOUT_URL: ${FULL_LOGOUT_URL:-https://idp.crazykok.local/realms/crazykok-local/protocol/openid-connect/logout?client_id=authentik-local&post_logout_redirect_uri=https%3A%2F%2Fcrazykok.local%2Foutpost.goauthentik.io%2Fsign_out}
     expose:
       - "80"
       - "443"
     volumes:
       - ./docker/certs:/etc/nginx/certs:ro
     networks:
-      default: {}
+      default:
+        aliases:
+          - ${IDP_STUB_DOMAIN:-idp.crazykok.local}
       gateway:
         aliases:
           - crazykok-app
@@ -85,8 +209,10 @@ services:
       - api
       - api-docs
       - db
+      - auth-server
+      - idp-stub
     healthcheck:
-      test: ["CMD-SHELL", "wget --spider -q --no-check-certificate --header=\"Host: $${APP_DOMAIN}\" https://127.0.0.1/ && wget --spider -q --no-check-certificate --header=\"Host: $${DOCS_DOMAIN}\" https://127.0.0.1/ && wget --spider -q --no-check-certificate --header=\"Host: $${API_DOCS_DOMAIN}\" https://127.0.0.1/ && wget --spider -q --no-check-certificate --header=\"Host: $${DB_DOMAIN}\" https://127.0.0.1/"]
+      test: ["CMD-SHELL", "wget --spider -q --no-check-certificate --header=\"Host: $${APP_DOMAIN}\" https://127.0.0.1/healthz"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -98,3 +224,7 @@ networks:
 
 volumes:
   api-data:
+  auth-postgres-data:
+  auth-redis-data:
+  auth-media:
+  auth-templates:
