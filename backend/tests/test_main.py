@@ -78,3 +78,26 @@ def test_list_events_and_create_event():
 
     missing_response = client.get(f"/events/{created['id']}")
     assert missing_response.status_code == 404
+
+
+def test_opportunity_import_upload_creates_series_and_opportunities():
+    csv_content = (
+        "import_key,name,series_name,event_date,application_deadline,organizer,category,location,"
+        "venue_external_id,venue_name,application_status,source_url,notes,expected_revenue,"
+        "expected_attendance,profit_score,is_active\n"
+        "seed-1,Emmen centrum weekmarkt 2026-07-17,Emmen centrum weekmarkt,2026-07-17,,"
+        "Gemeente Emmen,Market,Marktplein Emmen,VEN-NL-DR-EMMEN-MARKTPLEIN,Marktplein Emmen,"
+        "researching,,Verify before applying.,,,55,true\n"
+    )
+    response = client.post(
+        "/opportunity-imports/apply",
+        files={"opportunities_file": ("opportunities.csv", csv_content, "text/csv")},
+        data={"seed_venues": "true", "clean_regression_junk": "false"},
+    )
+
+    assert response.status_code == 200
+    assert response.json()["counts"]["created"] == 1
+    collection = client.get("/v1/opportunities", headers={"Accept": "application/hal+json"}).json()
+    opportunity = collection["_embedded"]["opportunities"][0]
+    assert opportunity["name"] == "Emmen centrum weekmarkt 2026-07-17"
+    assert opportunity["series_name"] == "Emmen centrum weekmarkt"

@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useMemo, useState } from 'react'
 import logoUrl from './assets/crazykok-logo.png'
 import AuthControls from './AuthControls'
 import ImportWorkspace from './ImportWorkspace'
+import OpportunityImportWorkspace from './OpportunityImportWorkspace'
 import VenueWorkspace from './VenueWorkspace'
 import PlanningWorkspace from './PlanningWorkspace'
 import EngagementsWorkspace from './EngagementsWorkspace'
@@ -565,7 +566,7 @@ function OpportunityWorkspace() {
 }
 
 function App() {
-  const [view, setView] = useState<'opportunities' | 'planning' | 'engagements' | 'venues' | 'import'>('venues')
+  const [view, setView] = useState<'opportunities' | 'planning' | 'engagements' | 'venues' | 'opportunity-import' | 'import'>('venues')
 
   return (
     <div>
@@ -576,11 +577,12 @@ function App() {
           <button className={view === 'planning' ? 'active' : ''} onClick={() => setView('planning')}>Map &amp; calendar</button>
           <button className={view === 'engagements' ? 'active' : ''} onClick={() => setView('engagements')}>Engagements</button>
           <button className={view === 'venues' ? 'active' : ''} onClick={() => setView('venues')}>Venues</button>
+          <button className={view === 'opportunity-import' ? 'active' : ''} onClick={() => setView('opportunity-import')}>Import opportunities</button>
           <button className={view === 'import' ? 'active' : ''} onClick={() => setView('import')}>Import venues</button>
         </div>
         <AuthControls />
       </nav>
-      {view === 'opportunities' ? <OpportunityWorkspace /> : view === 'planning' ? <PlanningWorkspace /> : view === 'engagements' ? <EngagementsWorkspace /> : view === 'venues' ? <VenueWorkspace /> : <ImportWorkspace />}
+      {view === 'opportunities' ? <OpportunityWorkspace /> : view === 'planning' ? <PlanningWorkspace /> : view === 'engagements' ? <EngagementsWorkspace /> : view === 'venues' ? <VenueWorkspace /> : view === 'opportunity-import' ? <OpportunityImportWorkspace /> : <ImportWorkspace />}
     </div>
   )
 }

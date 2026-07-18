@@ -1,11 +1,12 @@
 import os
+from pathlib import Path
 from urllib.parse import quote
 
-from fastapi import Depends, FastAPI, HTTPException, Query, Request
+from fastapi import Depends, FastAPI, File, Form, HTTPException, Query, Request, UploadFile
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, RedirectResponse
+from fastapi.responses import FileResponse, JSONResponse, RedirectResponse
 from sqlalchemy.orm import Session
 
 from . import models
@@ -14,6 +15,7 @@ from .api_v1 import router as api_v1_router
 from .auth import auth_api_required, require_current_user, require_write_access
 from .database import get_db
 from .hypermedia import ProblemJSONResponse, api_url
+from .opportunity_import import import_opportunities, read_opportunity_csv_text
 from .opportunity_service import apply_opportunity_values, filtered_opportunities, ordered_opportunities
 from .openapi_contract import api_docs_origin, router as openapi_contract_router
 from .schemas import EventCreate, EventRead, EventUpdate, OrganizerRead
@@ -50,6 +52,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+ROOT_DIR = Path(__file__).resolve().parents[2]
+
 def is_v1_path(path: str) -> bool:
     return path == "/v1" or path.startswith("/v1/")
 
@@ -73,7 +77,7 @@ async def api_contract_headers(request: Request, call_next):
 
 @app.middleware("http")
 async def api_auth_gate(request: Request, call_next):
-    protected_prefixes = ("/v1",)
+    protected_prefixes = ("/v1", "/opportunity-imports")
     if auth_api_required() and request.url.path.startswith(protected_prefixes):
         try:
             request.state.current_user = require_current_user(request)
@@ -127,6 +131,53 @@ async def validation_problem(request: Request, exc: RequestValidationError):
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
+
+
+@app.post("/opportunity-imports/apply")
+async def apply_opportunity_import(
+    opportunities_file: UploadFile = File(...),
+    seed_venues: bool = Form(default=False),
+    clean_regression_junk: bool = Form(default=False),
+    db: Session = Depends(get_db),
+):
+    try:
+        content = (await opportunities_file.read()).decode("utf-8-sig")
+        rows = read_opportunity_csv_text(content)
+        result = import_opportunities(
+            db,
+            rows,
+            seed_venues=seed_venues,
+            clean_regression_junk=clean_regression_junk,
+        )
+        db.commit()
+    except UnicodeDecodeError as exc:
+        db.rollback()
+        raise HTTPException(status_code=422, detail="Opportunity import must be a UTF-8 CSV file") from exc
+    except ValueError as exc:
+        db.rollback()
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    except Exception:
+        db.rollback()
+        raise
+    return {
+        "filename": opportunities_file.filename,
+        "counts": {
+            "created": result.created,
+            "updated": result.updated,
+            "skipped": result.skipped,
+            "junk_deleted": result.junk_deleted,
+        },
+    }
+
+
+@app.get("/opportunity-imports/template.csv")
+def opportunity_import_template():
+    return FileResponse(ROOT_DIR / "templates" / "opportunities_import_template.csv", media_type="text/csv")
+
+
+@app.get("/opportunity-imports/local-seed.csv")
+def opportunity_import_local_seed():
+    return FileResponse(ROOT_DIR / "templates" / "opportunities_local_seed.csv", media_type="text/csv")
 
 
 @app.get("/openapi.json", include_in_schema=False)
